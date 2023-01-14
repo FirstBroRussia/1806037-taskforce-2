@@ -7,6 +7,8 @@ export class TaskCategoryRdo {
   @Expose()
   public title: string;
 
-  @Expose()
-  public tasks: string[];
+  @Expose({
+    name: 'posts'
+  })
+  public tasks: object[];
 }

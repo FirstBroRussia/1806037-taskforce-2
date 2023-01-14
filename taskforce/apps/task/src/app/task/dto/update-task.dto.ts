@@ -1,9 +1,19 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CurrentDateValidator } from "@taskforce/core";
 import { Expose } from "class-transformer";
-import { IsArray, IsString, MaxLength, Min, MinLength, Validate } from "class-validator";
+import { IsArray, IsMongoId, IsString, MaxLength, Min, MinLength, Validate } from "class-validator";
 
 export class UpdateTaskDto {
+  @ApiProperty()
+  @Expose()
+  @IsMongoId()
+  userId?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  role?: string;
+
   @ApiProperty()
   @Expose()
   @IsString()

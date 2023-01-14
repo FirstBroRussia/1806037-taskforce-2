@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { comparePassword, getHashPassword } from '@taskforce/core';
+import { comparePassword, getHashPassword, getRatingPerformerUser } from '@taskforce/core';
 import { UpdateUserDtoType, UserEntityType } from '../../assets/type/types';
+import { RequestUserDataDto } from '../auth/dto/request-user-data.dto';
+import { PerformerUserEntity } from '../user-repository/entity/performer-user.entity';
 import { UserRepository } from '../user-repository/user.repository';
 import { UpdatePasswordUserDto } from './dto/update-password-user.dto';
 
@@ -31,6 +33,19 @@ export class UserService {
     return await this.userRepository.update(id, dto);
   }
 
+  public async updateUserTaskListById(userId: string, taskId: number, emailUser: string): Promise<UserEntityType> {
+    const existUser =  await this.userRepository.findById(userId);
+
+    if (existUser.email !== emailUser) {
+      throw new Error(`No access!`);
+    }
+    if (!existUser) {
+      throw new Error(`The user with this id: ${userId} was not found`);
+    }
+
+    return await this.userRepository.updateTaskList(userId, taskId);
+  }
+
   public async updatePassword(id: string, dto: UpdatePasswordUserDto): Promise<UserEntityType> {
     const {oldPassword, newPassword} = dto;
     const existUser =  await this.userRepository.findById(id);
@@ -59,4 +74,29 @@ export class UserService {
 
     return await this.userRepository.delete(id);
   }
+
+  public async getMyTasks(userData: RequestUserDataDto): Promise<(object | number)[]> {
+    const { sub } = userData;
+
+    const { tasks } = await this.userRepository.findById(sub);
+
+    return tasks;
+  }
+
+  public async updateRatingPerformerUser(userId: string, dto: number[]) {
+    const existUser = await this.userRepository.findById(userId) as PerformerUserEntity;
+
+    if (!existUser) {
+      throw new Error(`The user with this id: ${userId} was not found`);
+    }
+
+    const ratingScoreSum = dto.reduce((prev, curr) => prev + curr);
+    const reviewCount = dto.length;
+    const failTaskCount = existUser.failedTasks.length;
+
+    const ratingUser = getRatingPerformerUser(ratingScoreSum, reviewCount, failTaskCount);
+
+    return await this.userRepository.updateRating(userId, ratingUser);
+  }
+
 }

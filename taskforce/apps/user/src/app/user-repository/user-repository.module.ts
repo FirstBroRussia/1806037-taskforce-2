@@ -11,13 +11,8 @@ import { UserRepository } from './user.repository';
       { name: CustomerUserEntity.name, schema: CustomerUserSchema },
       { name: PerformerUserEntity.name, schema: PerformerUserSchema },
       { name: AuthUserEntity.name, schema: AuthUserSchema },
-      // {
-      //   name: UserEntity.name, schema: UserEntitySchema, discriminators: [
-      //   ],
-      // },
-    ],
-    // ConnectionDatabaseNameEnum.UsersMongoDb
-    ),
+
+    ]),
   ],
   providers: [UserRepository],
   exports: [UserRepository],

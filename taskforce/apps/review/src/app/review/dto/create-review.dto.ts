@@ -1,8 +1,46 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { IsString, IsDefined, MinLength, MaxLength, Min, Max, IsInt } from 'class-validator';
+import { IsString, IsDefined, MinLength, MaxLength, Min, Max, IsInt, IsNumber } from 'class-validator';
 
 export class CreateReviewDto {
+  @ApiProperty({
+    required: true,
+    description: 'Creator ID review',
+  })
+  @Expose()
+  @IsString()
+  @IsDefined()
+  public ownerTaskUserId: string;
+
+  @ApiProperty({
+    required: true,
+    description: 'Performer user ID',
+  })
+  @Expose()
+  @IsString()
+  @IsDefined()
+  public performerId: string;
+
+  @ApiProperty({
+    required: true,
+    description: 'Performer user ID',
+  })
+  @Expose()
+  @IsNumber()
+  @IsDefined()
+  public taskId: number;
+
+  @ApiProperty({
+    required: true,
+    description: 'Score for current review',
+  })
+  @Expose()
+  @Type(() => Number)
+  @Min(1)
+  @Max(5)
+  @IsInt()
+  public score: number;
+
   @ApiProperty({
     required: true,
     description: 'Review text',
@@ -18,32 +56,4 @@ export class CreateReviewDto {
   @IsDefined()
   public review: string;
 
-  @ApiProperty({
-    required: true,
-    description: 'Creator ID review',
-  })
-  @Expose()
-  @IsString()
-  @IsDefined()
-  public userId: string;
-
-  @ApiProperty({
-    required: true,
-    description: 'Task ID for current review',
-  })
-  @Expose()
-  @IsString()
-  @IsDefined()
-  public taskId: string;
-
-  @ApiProperty({
-    required: true,
-    description: 'Score for current review',
-  })
-  @Expose()
-  @Type(() => Number)
-  @Min(1)
-  @Max(5)
-  @IsInt()
-  public score: number;
 }

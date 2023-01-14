@@ -4,7 +4,7 @@ import { CreateTaskDto } from '../../task/dto/create-task.dto';
 export class TaskEntity {
   id: number;
 
-  userId: string; // БУДЕТ ЗАМЕНЕНО НА ССЫЛКУ НА СУЩНОСТЬ СОЗДАТЕЛЯ ИЗ БД
+  userId: string;
 
   title: string;
 
@@ -12,7 +12,7 @@ export class TaskEntity {
 
   description: string;
 
-  category: TaskCategoryInterface; // Тут типизация для ID
+  category: TaskCategoryInterface;
 
   price?: number;
 
@@ -24,9 +24,9 @@ export class TaskEntity {
 
   tags?: string[];
 
-  repliedPerformers: string[]; // БУДЕТ ЗАМЕНЕНО НА МАССИВ ИЗ ССЫЛОК НА СУЩНОСТИ ИСПОЛНИТЕЛЕЙ ИЗ БД
+  repliedPerformers: string[];
 
-  currentPerformer: string; // БУДЕТ ЗАМЕНЕНО НА ССЫЛКУ НА СУЩНОСТЬ ИСПОЛНИТЕЛЯ ИЗ БД
+  currentPerformer: string;
 
   createdAt: Date;
 

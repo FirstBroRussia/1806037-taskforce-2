@@ -44,7 +44,7 @@ export class PerformerUserDto {
   public successTasksCount: number;
 
   @ApiProperty()
-  @Transform(({ obj }) => obj.failedTasks.length)
+  @Transform(({ obj }) => obj.failedTasks?.length)
   @Expose()
   public failTasksCount: number;
 

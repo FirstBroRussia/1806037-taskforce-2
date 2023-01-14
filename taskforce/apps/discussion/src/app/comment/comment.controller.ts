@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { AllExceptionsFilter, CustomError, fillDTO, handleError } from '@taskforce/core';
-import { ExceptionEnum } from '@taskforce/shared-types';
+import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
 import { CommentService } from './comment.service';
 import { CommentDto } from './dto/comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { CommentQuery } from './query/comment.query';
+import { Request } from 'express';
 
 @ApiTags('comments')
 @Controller('comments')
@@ -29,39 +29,22 @@ export class CommentController {
     status: HttpStatus.OK,
     description: 'Get comments',
   })
-  @Get('/')
+  @Get('task/:taskId')
   @HttpCode(HttpStatus.OK)
-  public async getComments(@Query() query: CommentQuery): Promise<CommentDto | CommentDto[]> {
-    return fillDTO(CommentDto, await this.commentService.getComments(query));
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Get comment by id',
-  })
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  public async getComment(@Param('id') commentId: string): Promise<CommentDto | string> {
-    return fillDTO(CommentDto,
-      await this.commentService.getComment(commentId)
-                .then((result) => {
-                  if (!result) throw new CustomError(`Comment with this id: ${commentId} is not found.`, ExceptionEnum.NotFound);
-                  return result;
-                })
-                .catch((error) => handleError(error))
-    );
+  public async getComments(@Query() query: CommentQuery, @Param('taskId', ParseIntPipe) taskId?: number): Promise<CommentDto | CommentDto[]> {
+    return fillDTO(CommentDto, await this.commentService.getComments(query, taskId));
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Delete comment by id',
   })
-  @Delete(':id')
+  @Delete('comment/:commentId')
   @HttpCode(HttpStatus.OK)
-  public async deleteComment(@Param('id') commentId: string): Promise<string> {
-    await this.commentService.delete(commentId)
-      .then((result) => { if (!result) throw new CustomError(`Comment with this id: ${commentId} is not found.`, ExceptionEnum.NotFound) })
-      .catch((error) => handleError(error));
+  public async deleteComment(@Req() req: Request, @Param('commentId') commentId: string): Promise<string> {
+    const userId = req.headers['userid'] as string;
+    await this.commentService.delete(commentId, userId)
+      .catch((error) => handleHttpError(error));
 
     return 'OK';
   }

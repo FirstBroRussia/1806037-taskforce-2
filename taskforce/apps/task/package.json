@@ -1,5 +1,13 @@
 {
   "prisma": {
+    "schema": ".src/assets/prisma/schema.prisma",
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@prisma/client": "4.8.1",
+    "prisma": "4.8.1"
+  },
+  "scripts": {
+    "nx-start": "nx run task:serve"
   }
 }

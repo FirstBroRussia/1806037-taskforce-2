@@ -1,12 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CurrentDateValidator } from '@taskforce/core';
-import { Expose } from 'class-transformer';
-import { IsArray, IsDefined, IsInt, IsNotEmpty, IsString, MaxLength, Min, MinLength, Validate } from 'class-validator';
+import { CurrentDateValidator, CustomError } from '@taskforce/core';
+import { ExceptionEnum } from '@taskforce/shared-types';
+import { TagsValidator } from 'apps/task/src/assets/validate/tags-dto.validator';
+import { Expose, Transform } from 'class-transformer';
+import { IsArray, IsDefined, IsInt, IsMongoId, IsNotEmpty, IsString, MaxLength, Min, MinLength, Validate } from 'class-validator';
 
 export class CreateTaskDto {
   @ApiProperty()
   @Expose()
-  @IsString()
+  @IsMongoId()
   @IsNotEmpty()
   @IsDefined()
   public userId!: string;
@@ -65,6 +67,19 @@ export class CreateTaskDto {
 
   @ApiProperty()
   @Expose()
+  @Validate(TagsValidator, {
+    message: 'Invalid Date'
+  })
+  @Transform(({ obj }) => {
+    if (typeof obj.tags !== 'string') {
+      throw new CustomError('Field "tags" must be a STRING type', ExceptionEnum.Conflict);
+    }
+    let tagsArr: string[] = obj.tags.split(' ');
+    tagsArr = Array.from(new Set(tagsArr));
+    tagsArr = tagsArr.map(item => item.toLowerCase());
+
+    return tagsArr;
+  })
   @IsArray()
   tags?: string[];
 }

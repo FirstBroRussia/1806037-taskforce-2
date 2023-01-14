@@ -14,7 +14,7 @@
         "main": "apps/discussion/src/main.ts",
         "tsConfig": "apps/discussion/tsconfig.app.json",
         "assets": ["apps/discussion/src/assets"],
-        "generatedPackageJson": true
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

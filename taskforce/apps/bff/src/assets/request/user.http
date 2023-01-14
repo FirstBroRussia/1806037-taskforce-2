@@ -1,0 +1,80 @@
+# POST http://localhost:3333/api/auth/register
+POST http://localhost:3333/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@users.com",
+  "password": "11111111",
+  "role": "Performer",
+  "firstname": "Andrey",
+  "lastname": "Petrov",
+  "dateBirth": "2000-01-01",
+  "city": "Moscow"
+}
+
+###
+POST http://localhost:1001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "customer@customer.com",
+  "password": "11111111"
+}
+
+###
+POST http://localhost:1001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@users.com",
+  "password": "11111111"
+}
+
+###
+POST http://localhost:3333/api/auth/refreshtoken
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkODNhMjMwMDBiY2IzODk5ZjQ0YzQiLCJlbWFpbCI6InZ2dnZAY3VzdG9tZXIuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMDAyNmE5MDYzYjBkMDFiOGExYWIyIiwiaWF0IjoxNjczNTI3OTE0LCJleHAiOjE2NzM1Mzg3MTR9.TPBCWcijzJ2fiKS_fZO-nUdxRUfn6-vOtLEXLuE0GA8
+
+# {
+#   "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJpYXQiOjE2NzIzMjM3MTAsImV4cCI6MTY3MjMzNDUxMH0.J9c7QoM9kQFJxP3kSKju75M_9iobnwcDTjG6BtOJpog"
+# }
+
+###
+GET http://localhost:1001/api/auth/checktoken
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxMzQ0YTNkNjk5ODlmYmVkOWY3ODUiLCJpYXQiOjE2NzM2MDYyMTgsImV4cCI6MTY3MzYwNjgxOH0.yrsKb6GzhF082A5MbKAwZlpkNWCQzsJODc_Yfjm6VyM
+
+###
+GET http://localhost:3333/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkODNhMjMwMDBiY2IzODk5ZjQ0YzQiLCJlbWFpbCI6InZ2dnZAY3VzdG9tZXIuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMDBkM2IwZDIyZGI3MjYzMTk2ZThhIiwiaWF0IjoxNjczNTMwNjgzLCJleHAiOjE2NzM1MzEyODN9.Im1026Wh8Qd7jGhkPxAI7hAYQ8SdzqDl9YR11smFWVA
+###
+GET http://localhost:3333/api/users/user/63923e4bde079da10ffc0c90
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkODNhMjMwMDBiY2IzODk5ZjQ0YzQiLCJlbWFpbCI6InZ2dnZAY3VzdG9tZXIuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMDE2NjI5MDQ2NGMzNzU4MWJmYWUxIiwiaWF0IjoxNjczNTMzMDI2LCJleHAiOjE2NzM1MzM2MjZ9.HGU5swSAwnLU_pybOfJIo3SeOUEXchjMoGgvZeu4hRg
+
+###
+PUT http://localhost:3333/api/users/user/63bd83a23000bcb3899f44c4/updatepassword
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxNjc4MmE4ZDA1YjJjNWZkNTgyOWMiLCJpYXQiOjE2NzM2MTkzMzAsImV4cCI6MTY3MzYxOTkzMH0.6I7hj32hRYGHPl9OfEO80hskWgZ_o-KRNMRn7ikbe7o
+Content-Type: application/json
+
+{
+  "oldPassword": "22222222",
+  "newPassword": "11111111"
+}
+
+###
+PUT http://localhost:3333/api/users/user/63bd83a23000bcb3899f44c4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkODNhMjMwMDBiY2IzODk5ZjQ0YzQiLCJlbWFpbCI6InZ2dnZAY3VzdG9tZXIuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMDFiMTgyNmQyMmE0ZTJmOWE0MmEzIiwiaWF0IjoxNjczNTM0MjMyLCJleHAiOjE2NzM1MzQ4MzJ9.kv828x7knxxyy4ZrRsJl6q4xYP9dCFCNsVHcIlUaY6k
+Content-Type: application/json
+
+{
+  "firstname": "222222222",
+  "specialization": ["IT"]
+}
+
+###
+DELETE http://localhost:3333/api/users/user/63923e4bde079da10ffc0c90
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2JkODNhMjMwMDBiY2IzODk5ZjQ0YzQiLCJlbWFpbCI6InZ2dnZAY3VzdG9tZXIuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMDFiMTgyNmQyMmE0ZTJmOWE0MmEzIiwiaWF0IjoxNjczNTM0MjMyLCJleHAiOjE2NzM1MzQ4MzJ9.kv828x7knxxyy4ZrRsJl6q4xYP9dCFCNsVHcIlUaY6k
+
+###
+GET http://localhost:3333/api/users/user/mytasks?status=Working
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E1OTFlMDI1MTE4NDJjY2ZmMDI5YWYiLCJlbWFpbCI6InVzZXJAdXNlcnMuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMTdjZjc0YmMyZTgxMzY5ZjRkNTEzIiwiaWF0IjoxNjczNjI0ODIzLCJleHAiOjE2NzM2MjU0MjN9.e3t-j4VBv2naN2dOF0MVxjPqa5TgEvvIofjgDPTccxA
+
+###

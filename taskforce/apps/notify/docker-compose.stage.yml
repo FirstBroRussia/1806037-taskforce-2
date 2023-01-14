@@ -1,0 +1,83 @@
+version: '3.5'
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    ports:
+      - '5672:5672'
+      - '1084:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: test
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fakesmtp:
+    image: gessnerfl/fake-smtp-server
+    container_name: fakesmtp
+    hostname: fakesmtp
+    ports:
+      - '5025:5025'
+      - '1083:5080'
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb-notify
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: taskforce-notify
+    ports:
+      - 27040:27017
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval \"db.adminCommand('ping')\" "]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - ./db:/data/db
+
+  mongodb-express:
+    image: mongo-express
+    restart: always
+    container_name: mongo-express-notify
+    ports:
+      - 8088:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: test
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@mongodb:27017/
+
+  taskforce.notify:
+    image: taskforce.notify
+    depends_on:
+      - mongodb
+      - mongodb-express
+      - rabbitmq
+      - fakesmtp
+    container_name: taskforce.notify.service
+    ports:
+      - 1001:3333
+    environment:
+      MONGO_DB: taskforce_notify
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_USER: admin
+      MONGO_PASSWORD: test
+      MONGO_AUTH_BASE: admin
+
+      RABBIT_USER: admin
+      RABBIT_PASSWORD: test
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: 5672
+      RABBIT_NOTIFY_SERVICE_QUEUE: taskforce.subscribers
+
+      MAIL_SMTP_HOST: fakesmtp
+      MAIL_SMTP_PORT: 5025
+      MAIL_USERNAME: admin
+      MAIL_PASSWORD: test
+      MAIL_FROM: Vasya Svetov <vasya@svetov.com>

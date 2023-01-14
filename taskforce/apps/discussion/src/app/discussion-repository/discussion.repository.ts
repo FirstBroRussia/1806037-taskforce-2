@@ -1,9 +1,5 @@
-import * as crypto from 'crypto';
-import * as dayjs from 'dayjs';
-
 import { Injectable } from "@nestjs/common";
 import { CommentEntity } from "./entity/comment.entity";
-import { DEFAULT_COMMENT_COUNT } from '../../assets/constants';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CommentQuery } from '../comment/query/comment.query';
@@ -22,10 +18,10 @@ export class DiscussionRepository {
     return await commentEntityModel.save();
   }
 
-  public async find(query: CommentQuery): Promise<CommentEntity[]> {
+  public async find(query: CommentQuery, taskId?: number): Promise<CommentEntity[]> {
     const { limit, page } = query;
 
-    return await this.commentModel.find().limit(limit).skip(limit * (page - 1));
+    return await this.commentModel.find({ taskId: taskId }).limit(limit).skip(limit * (page - 1)).sort({ createdAt: "desc" });
   }
 
   public async findById(id: string): Promise<CommentEntity> {

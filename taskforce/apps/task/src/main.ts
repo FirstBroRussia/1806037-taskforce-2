@@ -33,6 +33,7 @@ async function bootstrap() {
     skipMissingProperties: true,
     transformOptions: {
       exposeUnsetFields: true,
+      excludeExtraneousValues: true,
     },
   }));
 

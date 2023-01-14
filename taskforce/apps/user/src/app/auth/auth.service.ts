@@ -88,8 +88,6 @@ export class AuthService {
       lastname: existUser.lastname,
     };
 
-    // TODO
-    // Добавляем данного пользователя в БД для авторизованных
     const authDataUser = {
       email: existUser.email,
     };

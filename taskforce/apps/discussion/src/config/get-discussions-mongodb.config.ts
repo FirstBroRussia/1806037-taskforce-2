@@ -5,7 +5,6 @@ import { MongoDbEnvInterface } from "@taskforce/shared-types";
 
 export function getDiscussionMongoDbConfig(): MongooseModuleAsyncOptions {
   return {
-    // connectionName: 'dicsussion',
     inject: [ConfigService],
     useFactory: async (configService: ConfigService<MongoDbEnvInterface>) => {
       return {

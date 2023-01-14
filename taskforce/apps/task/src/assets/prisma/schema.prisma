@@ -18,22 +18,19 @@ model Task {
   status             String // ТУТ НУЖЕН ENUM
   description        String
   category           Category[]
-  // Category           Category @relation(fields: [categoryId], references: [id], onUpdate: Cascade) // ТУТ НАДО РЕШИТЬ
-  // categoryId         Int // ТУТ НАДО РЕШИТЬ
   price              Int?
   lifeTime           DateTime?
   image              String?
   address            String?
   tags               String[]
-  repliedPerformers  String[] // id этих юзеров
-  currentPerformer   String? // id юзера
+  repliedPerformers  String[]
+  currentPerformer   String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @default(now())
-  // comments           String[] // id этих комментов
 }
 
 model Category {
   id             Int @id @default(autoincrement())
   title          String
-  posts          Task[]
+  tasks          Task[]
 }

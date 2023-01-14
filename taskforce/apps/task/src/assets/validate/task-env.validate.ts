@@ -6,6 +6,11 @@ const MAX_PORT = 65535;
 
 class EnvironmentsConfig {
   @IsString({
+    message: 'Database URL is required',
+  })
+  public DATABASE_URL: string;
+
+  @IsString({
     message: 'Rabbit user is required.'
   })
   public RABBIT_USER: string;

@@ -60,27 +60,27 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/task",
-        "command": "npx prisma validate --schema ./prisma/schema.prisma"
+        "command": "npx prisma validate --schema ./src/assets/prisma/schema.prisma"
       }
     },
     "db-migrate": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/task",
-        "command": "npx prisma migrate dev --schema ./prisma/schema.prisma --name initial --skip-generate --skip-seed"
+        "command": "npx prisma migrate dev --schema ./src/assets/prisma/schema.prisma --name initial --skip-generate --skip-seed"
       }
     },
     "db-reset": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/task",
-        "command": "npx prisma migrate reset --schema ./prisma/schema.prisma --force --skip-generate --skip-seed"
+        "command": "npx prisma migrate reset --schema ./src/assets/prisma/schema.prisma --force --skip-generate --skip-seed"
       }
     },
     "db-generate": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx prisma generate --schema ./prisma/schema.prisma",
+        "command": "npx prisma generate --schema ./src/assets/prisma/schema.prisma",
         "cwd": "apps/task"
       }
     },

@@ -5,4 +5,5 @@ export const ExceptionEnum = {
   Forbidden: 'Forbidden',
   Conflict: 'Conflict',
   NotImplemented: 'NotImplemented',
+  AxiosError: 'AxiosError',
 } as const;

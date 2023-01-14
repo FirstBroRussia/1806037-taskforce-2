@@ -15,33 +15,37 @@ export class ReviewEntity implements ReviewInterface, ReviewEntity {
   @Prop({
     required: true,
   })
-  public userId: string;
+  ownerTaskUserId: string;
+
+  @Prop({
+    required: true,
+  })
+  performerId: string;
 
   @Prop({
     required: true,
     unique: true,
   })
-  public taskId: string;
+  taskId: number;
 
   @Prop({
     required: true,
   })
-  public review: string;
+  score: number;
 
   @Prop({
     required: true,
   })
-  public score: number;
-  @Prop()
-  public rating: number;
+  review: string;
 
   public fillEntity(dto: CreateReviewDto) {
-    const { review, taskId, score, userId } = dto;
+    const { ownerTaskUserId, performerId, taskId, review, score } = dto;
 
-    this.review = review;
+    this.ownerTaskUserId = ownerTaskUserId;
+    this.performerId = performerId;
     this.taskId = taskId;
+    this.review = review;
     this.score = score;
-    this.userId = userId;
 
     return this;
   }

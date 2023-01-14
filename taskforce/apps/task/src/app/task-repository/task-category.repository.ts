@@ -13,7 +13,10 @@ export class TaskCategoryRepository {
 
   public async create(item: TaskCategoryEntity): Promise<TaskCategoryInterface> {
     return this.prismaService.category.create({
-      data: { ...item.toObject() }
+      data: { ...item.toObject() },
+      include: {
+        posts: true,
+      }
     });
   }
 
@@ -29,6 +32,9 @@ export class TaskCategoryRepository {
     return this.prismaService.category.findFirst({
       where: {
         id
+      },
+      include: {
+        posts: true,
       }
     });
   }
@@ -37,6 +43,9 @@ export class TaskCategoryRepository {
     return this.prismaService.category.findFirst({
       where: {
         title: title,
+      },
+      include: {
+        posts: true,
       }
     });
   }
@@ -47,6 +56,9 @@ export class TaskCategoryRepository {
         id: {
           in: ids.length > 0 ? ids : undefined
         }
+      },
+      include: {
+        posts: true,
       }
     });
   }
@@ -56,7 +68,10 @@ export class TaskCategoryRepository {
       where: {
         id
       },
-      data: { ...item.toObject(), id }
+      data: { ...item.toObject(), id },
+      include: {
+        posts: true,
+      }
     });
   }
 }

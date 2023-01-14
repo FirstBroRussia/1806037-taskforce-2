@@ -23,10 +23,9 @@ export class AuthRepository {
     });
   }
 
-  public async addAuthUser(dto: AuthDataUserDto): Promise<any> {
+  public async addAuthUser(dto: AuthDataUserDto): Promise<AuthUserEntity> {
     const newAuthUser = new AuthUserEntity().fillEntity(dto);
     const newAuthUserModel = new this.authUserModel(newAuthUser);
-    // newAuthUserModel.isNew;
 
     return await newAuthUserModel.save();
   }

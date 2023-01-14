@@ -68,7 +68,7 @@ export class PerformerUserEntity implements UserInterface {
   public rating: number;
 
   @Prop()
-  public tasks: object[];
+  public tasks: number[];
 
   @Prop()
   public failedTasks: string[];
@@ -83,6 +83,7 @@ export class PerformerUserEntity implements UserInterface {
     this.avatar = customerUser?.avatar;
     this.description = '';
     this.specialization = [];
+    this.rating = null;
     this.tasks = [];
 
     return this;

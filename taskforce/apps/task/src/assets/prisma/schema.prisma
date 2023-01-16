@@ -15,7 +15,7 @@ model Task {
   id                 Int @id @default(autoincrement())
   userId             String
   title              String
-  status             String // ТУТ НУЖЕН ENUM
+  status             String
   description        String
   category           Category[]
   price              Int?

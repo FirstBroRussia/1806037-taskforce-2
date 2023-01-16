@@ -22,8 +22,7 @@ export class TaskCategoryController {
   @Get('/')
   @HttpCode(HttpStatus.OK)
   async getAll() {
-    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Categories}`)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Categories}`);
 
     return data;
   }
@@ -34,8 +33,7 @@ export class TaskCategoryController {
   })
   @Get('/:categoryId')
   async get(@Param('categoryId', ParseIntPipe) categoryId: number) {
-    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Categories}/${categoryId}`)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Categories}/${categoryId}`);
 
     return data;
   }
@@ -47,8 +45,7 @@ export class TaskCategoryController {
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() dto) {
-    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Categories}`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Categories}`, dto);
 
     return data;
   }
@@ -60,9 +57,7 @@ export class TaskCategoryController {
   @Delete('/:categoryId')
   @HttpCode(HttpStatus.OK)
   async delete(@Param('categoryId', ParseIntPipe) categoryId: number) {
-    await this.httpService.axiosRef.delete(`${MicroserviceUrlEnum.Categories}/${categoryId}`)
-                            .catch(err => { throw err });
-
+    await this.httpService.axiosRef.delete(`${MicroserviceUrlEnum.Categories}/${categoryId}`);
 
     return `Delete category with id: ${categoryId} is successful`;
   }
@@ -74,8 +69,7 @@ export class TaskCategoryController {
   @Put('/:categoryId')
   @HttpCode(HttpStatus.CREATED)
   async update(@Param('categoryId', ParseIntPipe) categoryId: number, @Body() dto) {
-    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Categories}/${categoryId}`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Categories}/${categoryId}`, dto);
 
     return data;
   }

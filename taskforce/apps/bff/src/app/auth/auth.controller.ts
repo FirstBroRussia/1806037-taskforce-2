@@ -3,7 +3,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Logger, LoggerService, Pos
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@taskforce/core';
-import { AuthUserDto, CreateUserDto } from '@taskforce/shared-types';
+import { AuthUserDto } from '@taskforce/shared-types';
 import { Request } from 'express';
 import { MicroserviceUrlEnum } from '../../assets/enum/microservice-url.enum';
 
@@ -24,12 +24,11 @@ export class AuthController {
   @Post('register')
   @UseInterceptors(FileInterceptor('avatar'))
   @HttpCode(HttpStatus.CREATED)
-  async create(@Req() req: Request & { file }, @Body() dto: CreateUserDto) {
-    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Auth}/register`, req,
+  async create(@Req() req: Request & { file }, @Body() dto) {
+    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Auth}/register`, dto,
     {
       headers: { 'Content-Type': 'multipart/form-data' },
-    })
-            .catch(err => { throw err });
+    });
 
     return data;
   }
@@ -41,8 +40,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: AuthUserDto) {
-    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Auth}/login`, dto)
-            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Auth}/login`, dto);
 
     return data;
   }
@@ -56,8 +54,7 @@ export class AuthController {
   async refreshToken(@Req() req: Request) {
     const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Auth}/refreshtoken`, null, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-            .catch(err => { throw err });
+    });
 
     return data;
   }
@@ -71,8 +68,7 @@ export class AuthController {
   async logout(@Req() req: Request) {
     await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Auth}/logout`, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-            .catch(err => { throw err });
+    });
 
     return 'OK';
   }

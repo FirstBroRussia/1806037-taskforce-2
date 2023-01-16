@@ -25,8 +25,7 @@ export class ReviewController {
   @Post('user/:performerUserId/task/:taskId')
   @HttpCode(HttpStatus.CREATED)
   public async create(@Req() req: Request & { user }, @Param('performerUserId', MongoIdValidationPipe) performerUserId: string, @Param('taskId', ParseIntPipe) taskId: number, @Body() dto) {
-    await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}/task/${taskId}/checkcomplete/performer/${performerUserId}`, { ownerId: req.user.sub })
-                            .catch(err => { throw err });
+    await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}/task/${taskId}/checkcomplete/performer/${performerUserId}`, { ownerId: req.user.sub });
 
     const postReviewData: CreateReviewBFFDto = {
       ownerTaskUserId: req.user.sub,
@@ -35,17 +34,16 @@ export class ReviewController {
       review: dto.review,
       score: dto.score,
     };
-    await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Review}`, postReviewData)
-                            .catch(err => { throw err });
+    const newReview = (await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Review}`, postReviewData)).data;
 
     const reviewScoreList = (fillDTO(
       ReviewScoreListDto,
-      (await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Review}/user/${performerUserId}`)
-                                .catch(err => { throw err })).data
+      (await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Review}/user/${performerUserId}`)).data
       ) as unknown as ReviewScoreListDto[]).map(item => item.score);
 
-    await this.httpService.axiosRef.patch(`${MicroserviceUrlEnum.User}/user/${performerUserId}/updaterating`, reviewScoreList)
-                            .catch(err => { throw err });
+    await this.httpService.axiosRef.patch(`${MicroserviceUrlEnum.User}/user/${performerUserId}/updaterating`, reviewScoreList);
+
+    return newReview;
   }
 
   @ApiResponse({
@@ -55,7 +53,6 @@ export class ReviewController {
   @Get('user/:performerUserId')
   @HttpCode(HttpStatus.OK)
   public async getAllReviewByUserId(@Param('performerUserId', MongoIdValidationPipe) performerUserId: string) {
-    return (await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Review}/user/${performerUserId}`)
-                    .catch(err => { throw err })).data;
+    return (await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Review}/user/${performerUserId}`)).data;
   }
 }

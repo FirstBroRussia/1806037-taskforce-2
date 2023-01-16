@@ -25,8 +25,7 @@ export class UserController {
   async getUserById(@Req() req: Request, @Param('id', MongoIdValidationPipe) id: string) {
     const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.User}/${id}`, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
 
     return data;
   }
@@ -40,8 +39,7 @@ export class UserController {
   async updatePasswordUserById(@Req() req: Request, @Param('id', MongoIdValidationPipe) id: string, @Body() dto) {
     const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.User}/${id}/updatepassword`, dto, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
 
     return data;
   }
@@ -55,8 +53,7 @@ export class UserController {
   async updateUserById(@Req() req: Request, @Param('id', MongoIdValidationPipe) id: string, @Body() dto) {
     const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.User}/${id}`, dto, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
 
     return data;
   }
@@ -70,8 +67,7 @@ export class UserController {
   async deleteUserById(@Req() req: Request, @Param('id', MongoIdValidationPipe) id: string) {
     await this.httpService.axiosRef.delete(`${MicroserviceUrlEnum.User}/${id}`, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
 
     return 'Delete is complete.'
   }
@@ -85,8 +81,8 @@ export class UserController {
   async getMyTasks(@Req() req: Request, @Query() { status }) {
     const resultOne = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.User}/user/mytasks`, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
+
     const payload = {
       idsList: resultOne.data,
       status: status,
@@ -94,8 +90,7 @@ export class UserController {
 
     const resultTwo = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}/task/mytasks`, payload, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                              .catch(err => { throw err });
+    });
 
     return resultTwo.data;
   }

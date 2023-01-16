@@ -27,11 +27,9 @@ export class DiscussionController {
   @HttpCode(HttpStatus.CREATED)
   public async create(@Body() dto: CreateCommentBFFDto) {
     const { taskId } = dto;
-    await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}/task/${taskId}`)
-                            .catch(err => { throw err });
+    await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}/task/${taskId}`);
 
-    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Comment}`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Comment}`, dto);
 
     return data;
   }
@@ -44,14 +42,13 @@ export class DiscussionController {
   @HttpCode(HttpStatus.OK)
   public async getComments(@Req() req: Request, @Param('taskId', ParseIntPipe) taskId: number) {
     const queryString = req.url.replace(req.path, '');
-    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Comment}/task/${taskId}${queryString}`)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Comment}/task/${taskId}${queryString}`);
+
     const commentList = data as CommentBFFDto[];
     for (const item of commentList) {
       const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.User}/user/${item.userId}/cropped`, {
 
-      })
-                            .catch(err => { throw err });
+      });
       item.userId = data;
     }
 
@@ -68,8 +65,7 @@ export class DiscussionController {
   public async deleteComment(@Req() req: Request & { user }, @Param('commentId', MongoIdValidationPipe) commentId: string): Promise<string> {
     await this.httpService.axiosRef.delete(`${MicroserviceUrlEnum.Comment}/comment/${commentId}`, {
       headers: { 'userid': req.user.sub },
-     })
-            .catch(err => { throw err });
+     });
 
     return 'Delete is complete';
   }

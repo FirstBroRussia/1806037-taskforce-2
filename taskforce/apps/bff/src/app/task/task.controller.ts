@@ -25,8 +25,7 @@ export class TaskController {
   @UseInterceptors(DataTransformInterceptor)
   @HttpCode(HttpStatus.CREATED)
   public async createTask(@Req() req: Request & { user }, @Body() dto) {
-    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}`, dto);
 
     return data;
   }
@@ -39,8 +38,7 @@ export class TaskController {
   @HttpCode(HttpStatus.OK)
   public async getTasks(@Req() req: Request) {
     const queryString = req.url.replace(req.path, '');
-    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}${queryString}`)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}${queryString}`);
 
     return data;
   }
@@ -52,8 +50,7 @@ export class TaskController {
   @Get('task/:id')
   @HttpCode(HttpStatus.OK)
   public async getTask(@Param('id', ParseIntPipe) taskId: number) {
-    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}/task/${taskId}`)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Task}/task/${taskId}`);
 
     return data;
   }
@@ -66,8 +63,7 @@ export class TaskController {
   @UseInterceptors(DataTransformInterceptor)
   @HttpCode(HttpStatus.CREATED)
   public async updateTask(@Param('id', ParseIntPipe) taskId: number, @Body() dto) {
-    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}`, dto);
 
     return data;
   }
@@ -80,8 +76,7 @@ export class TaskController {
   @UseInterceptors(DataTransformInterceptor)
   @HttpCode(HttpStatus.CREATED)
   public async updateStatusTask(@Param('id', ParseIntPipe) taskId: number, @Body() dto) {
-    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}/updatestatus`, dto)
-                            .catch(err => { throw err });
+    const { data } = await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}/updatestatus`, dto);
 
     return data;
   }
@@ -94,13 +89,11 @@ export class TaskController {
   @UseInterceptors(DataTransformInterceptor)
   @HttpCode(HttpStatus.OK)
   async choosePerformerById(@Req() req: Request & { user }, @Param('id', ParseIntPipe) taskId: number, @Body() dto) {
-    await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}/chooseperformer`, dto)
-            .catch(err => { throw err });
+    await this.httpService.axiosRef.put(`${MicroserviceUrlEnum.Task}/task/${taskId}/chooseperformer`, dto);
 
     await this.httpService.axiosRef.patch(`${MicroserviceUrlEnum.User}/user/${req.user.sub}/addtask/${taskId}`, null, {
       headers: { 'Authorization': req.headers['authorization'] },
-    })
-                            .catch(err => { throw err });
+    });
   }
 
   @ApiResponse({
@@ -111,8 +104,7 @@ export class TaskController {
   @UseInterceptors(DataTransformInterceptor)
   @HttpCode(HttpStatus.CREATED)
   public async addReplyToTask(@Param('taskId', ParseIntPipe) taskId: number, @Body() dto) {
-    await this.httpService.axiosRef.patch(`${MicroserviceUrlEnum.Task}/task/${taskId}/addreply`, dto)
-                      .catch(err => { throw err });
+    await this.httpService.axiosRef.patch(`${MicroserviceUrlEnum.Task}/task/${taskId}/addreply`, dto);
   }
 
   @ApiResponse({
@@ -124,8 +116,7 @@ export class TaskController {
   public async deleteTask(@Req() req: Request & { user }, @Param('id', ParseIntPipe) taskId: number): Promise<string> {
     await this.httpService.axiosRef.delete(`${MicroserviceUrlEnum.Task}/task/${taskId}`, {
       headers: { 'userid': req.user.sub },
-    })
-                      .catch(err => { throw err });
+    });
 
     return `Delete task with id: ${taskId} is succussful`;
   }
@@ -137,8 +128,7 @@ export class TaskController {
   @Post('task/mytasks')
   @HttpCode(HttpStatus.OK)
   public async getMyTasks(@Body() dto) {
-    return (await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}/task/mytasks`, dto)
-                      .catch(err => { throw err })).data;
+    return (await this.httpService.axiosRef.post(`${MicroserviceUrlEnum.Task}/task/mytasks`, dto)).data;
   }
 
 }

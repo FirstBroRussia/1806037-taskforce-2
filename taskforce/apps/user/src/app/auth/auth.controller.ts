@@ -31,14 +31,12 @@ export class AuthController {
   @Post('register')
   @UseInterceptors(FileInterceptor('avatar'))
   @HttpCode(HttpStatus.CREATED)
-  async create(@Req() req: Request, @Body() dto) {
-    console.log(dto);
-    console.log(req);
-    // return fillDTO(
-    //   CreatedUserDto,
-    //   await this.authService.register(dto)
-    //           .catch(err => handleHttpError(err)) as UserEntityType
-    //   );
+  async create(@Req() req: Request, @Body() dto: CreateUserDto) {
+    return fillDTO(
+      CreatedUserDto,
+      await this.authService.register(dto)
+              .catch(err => handleHttpError(err)) as UserEntityType
+      );
   }
 
   @ApiResponse({

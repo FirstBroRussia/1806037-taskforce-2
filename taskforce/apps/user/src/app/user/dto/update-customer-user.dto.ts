@@ -13,7 +13,7 @@ export class UpdateCustomerUserDto {
   @MaxLength(50, {
     message: 'Firstname is longer than 50 characters'
   })
-  public firstname: string;
+  public firstname?: string;
 
   @ApiProperty()
   @Expose()
@@ -24,14 +24,14 @@ export class UpdateCustomerUserDto {
   @MaxLength(50, {
     message: 'Lastname is longer than 50 characters'
   })
-  public lastname: string;
+  public lastname?: string;
 
   @ApiProperty()
   @Expose()
   @Validate(AdultDateValidator, {
     message: 'The user is under 18 years of age'
   })
-  public dateBirth: string;
+  public dateBirth?: string;
 
   @ApiProperty()
   @Expose()
@@ -39,5 +39,10 @@ export class UpdateCustomerUserDto {
   @MaxLength(300, {
     message: 'Description is longer than 300 characters'
   })
-  public description: string;
+  public description?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  public taskId?: string;
 }

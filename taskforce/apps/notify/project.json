@@ -14,7 +14,7 @@
         "main": "apps/notify/src/main.ts",
         "tsConfig": "apps/notify/tsconfig.app.json",
         "assets": ["apps/notify/src/assets"],
-        "generatedPackageJson": true
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

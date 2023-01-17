@@ -8,7 +8,7 @@ async function fillDb() {
     update: {},
     create: {
       title: 'Ремонт компьютеров',
-      posts: {
+      tasks: {
         create: [
         {
           title: 'Нужно отремонтировать ПК',

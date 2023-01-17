@@ -8,5 +8,5 @@
     "target": "es2015"
   },
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["**/*.ts", "../../libs/shared-types/src/lib/interface/mongodb-config.interface.ts"]
+  "include": ["**/*.ts", "../../libs/shared-types/src/lib/interface/mongodb-config.interface.ts", "src/app/comment/dto/create-comment.dto.ts"]
 }

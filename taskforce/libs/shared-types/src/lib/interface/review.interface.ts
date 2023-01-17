@@ -1,5 +1,11 @@
 export interface ReviewInterface {
-  review: string;
-  taskId: string;
+  ownerTaskUserId: string;
+
+  performerId: string;
+
+  taskId: number;
+
   score: number;
+
+  review: string;
 }

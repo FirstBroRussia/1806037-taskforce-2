@@ -5,7 +5,6 @@ import { MongoDbEnvInterface } from "@taskforce/shared-types";
 
 export const getReviewMongoDbConfig = (): MongooseModuleAsyncOptions => {
   return {
-    // connectionName: 'review',
     inject: [ConfigService],
     useFactory: async (configService: ConfigService<MongoDbEnvInterface>) => ({
       uri: getMongoConnectionString({

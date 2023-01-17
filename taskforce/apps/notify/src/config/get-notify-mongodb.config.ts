@@ -5,7 +5,6 @@ import { NotifyEnvInterface } from "./notify-env.interface";
 
 export function getNotifyMongoDbConfig(): MongooseModuleAsyncOptions {
   return {
-    // connectionName: 'notify',
     inject: [ConfigService],
     useFactory: async (configService: ConfigService<NotifyEnvInterface>) => {
       return {

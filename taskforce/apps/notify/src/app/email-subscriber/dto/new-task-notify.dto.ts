@@ -3,7 +3,7 @@ import { IsMongoId, IsString } from "class-validator";
 
 export class NewTaskNotifyDto {
   @Expose()
-  // @IsMongoId()
+  @IsMongoId()
   userId?: string;
 
   @Expose()

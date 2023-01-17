@@ -1,5 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject, Logger, LoggerService } from "@nestjs/common";
 import { HttpAdapterHost } from '@nestjs/core';
+import { ExceptionEnum } from "@taskforce/shared-types";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -8,9 +9,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
   constructor(@Inject(HttpAdapterHost) private readonly httpAdapterHost: HttpAdapterHost) {}
 
   catch(exception: any, host: ArgumentsHost): void {
-    // In certain situations `httpAdapter` might not be available in the
-    // constructor method, thus we should resolve it here.
-
     const { httpAdapter } = this.httpAdapterHost;
 
     const error = (() => {
@@ -18,6 +16,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
         case exception instanceof HttpException: {
           exception.response['stack'] = exception.stack;
           return exception;
+        }
+        case exception.name === ExceptionEnum.AxiosError: {
+          return {
+            response: {
+              message: exception.response.data.message,
+              error: exception.response.data.error,
+              stack: exception.stack,
+            },
+          }
         }
         case exception instanceof Error: {
           return {
@@ -37,6 +44,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const httpStatus =
       exception instanceof HttpException
         ? exception.getStatus()
+        : exception.name === ExceptionEnum.AxiosError
+        ? exception.response.data.statusCode
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const responseBody = {

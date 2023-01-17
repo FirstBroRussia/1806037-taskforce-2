@@ -24,8 +24,7 @@ export class EmailSubscriberController {
   })
   @UsePipes(ValidationPipe)
   public async createSubscriber(dto: CreateEmailSubscriberDto) {
-    return await this.emailSubscriberService.addSubscriber(dto)
-                    .catch(err => {throw err});
+    return await this.emailSubscriberService.addSubscriber(dto);
   }
 
   @ApiResponse({
@@ -36,8 +35,7 @@ export class EmailSubscriberController {
   })
   @UsePipes(ValidationPipe)
   public async notifyAboutTask(dto: NewTaskNotifyDto) {
-    return await this.emailSubscriberService.notifyAboutTask(dto)
-                    .catch(err => {throw err});
+    return await this.emailSubscriberService.notifyAboutTask(dto);
   }
 
 }

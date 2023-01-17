@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TaskCategoryInterface, TaskStatusType } from '@taskforce/shared-types';
+import { TaskCategoryInterface, TaskStatusEnum, TaskStatusType } from '@taskforce/shared-types';
 import { TaskEntity } from './entities/task.entity';
 import { UpdateTaskDto } from '../task/dto/update-task.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Task } from '@prisma/client';
 import { TaskQuery } from '../../assets/query/task.query';
+
 
 @Injectable()
 export class TaskRepository {
@@ -27,8 +28,28 @@ export class TaskRepository {
     });
   }
 
-  public async find(query: TaskQuery): Promise<Task[]> {
-    const { limit, page, sort, categories, city, tags } = query;
+  public async find(query: TaskQuery, idsList?: string[], status?: string): Promise<Task[]> {
+    console.log(status);
+    if (idsList) {
+      return await this.prismaService.task.findMany({
+        where: {
+          id: {
+            in: idsList.map(item => +item),
+          },
+          status: status ?? undefined,
+        },
+        include: {
+          category: true
+        },
+        orderBy: [
+          {
+          createdAt: 'desc',
+          },
+        ]
+      });
+    }
+
+    const { limit, page, sort, categories, tags } = query;
 
     return await this.prismaService.task.findMany({
       where: {
@@ -125,6 +146,7 @@ export class TaskRepository {
       },
       data: {
         currentPerformer: userId,
+        status: TaskStatusEnum.Working,
       },
       include: {
         category: true,
@@ -157,4 +179,5 @@ export class TaskRepository {
 
     return;
   }
+
 }

@@ -1,0 +1,17 @@
+POST http://localhost:3333/api/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E1OTFlMDI1MTE4NDJjY2ZmMDI5YWYiLCJlbWFpbCI6InVzZXJAdXNlcnMuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMjhiYTgxOTQxZDFlZDFlZTUwNjNjIiwiaWF0IjoxNjczNjk0MTIwLCJleHAiOjE2NzM2OTQ3MjB9.HvIvDDcOpHlHJuk7D2aA-oWTZG9uuBpKJ-ZwarqcMTY
+Content-Type: application/json
+
+{
+  "taskId": "2",
+  "comment": "Говномесево нереальное этиа задача, ппц вы конечно товарищи, такого я не ожидал от вас!!!"
+}
+
+###
+GET http://localhost:3333/api/comments/task/2?limit=
+
+###
+DELETE http://localhost:3333/api/comments/comment/63c283cb5fd6b1cdb61217e1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E1OTFlMDI1MTE4NDJjY2ZmMDI5YWYiLCJlbWFpbCI6InVzZXJAdXNlcnMuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMjk5NjNkY2E3M2UwMTk0NzI2ZmMzIiwiaWF0IjoxNjczNjk3NjM1LCJleHAiOjE2NzM2OTgyMzV9.iUQpn4FNYgq2AGGwCUknqXiLAXcq347y7dc5AcEaC6A
+
+###

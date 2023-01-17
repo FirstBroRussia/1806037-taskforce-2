@@ -1,0 +1,54 @@
+version: '3.5'
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: taskforce-user
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval \"db.adminCommand('ping')\" "]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - ./db:/data/db
+
+  mongodb-express:
+    image: mongo-express
+    restart: always
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: test
+      ME_CONFIG_MONGODB_URL: mongodb://admin:test@mongodb:27017/
+
+  taskforce.user:
+    image: taskforce.user
+    depends_on:
+      - mongodb
+    container_name: taskforce.user.service
+    ports:
+      - 1005:3333
+    environment:
+      MONGO_DB: taskforce_users
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_USER: admin
+      MONGO_PASSWORD: test
+      MONGO_AUTH_BASE: admin
+
+      JWT_SECRET: secret
+
+      RABBIT_USER: admin
+      RABBIT_PASSWORD: test
+      RABBIT_HOST: localhost
+      RABBIT_PORT: 5672
+      RABBIT_USERS_SERVICE_QUEUE: taskforce.subscribers

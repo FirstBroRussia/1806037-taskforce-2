@@ -14,7 +14,7 @@
         "main": "apps/user/src/main.ts",
         "tsConfig": "apps/user/tsconfig.app.json",
         "assets": ["apps/user/src/assets"],
-        "generatedPackageJson": true
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

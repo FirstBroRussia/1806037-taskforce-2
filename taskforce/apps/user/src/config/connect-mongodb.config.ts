@@ -1,11 +1,9 @@
 import { ConfigService } from "@nestjs/config";
 import { MongooseModuleAsyncOptions } from "@nestjs/mongoose";
 import { getMongoConnectionString } from "@taskforce/core";
-import { ConnectionDatabaseNameEnum } from "@taskforce/shared-types";
 
 export function getUsersMongoDbConfig(): MongooseModuleAsyncOptions {
   return {
-    // connectionName: 'users',
     inject: [ConfigService],
     useFactory: async (configService: ConfigService) => ({
       uri: getMongoConnectionString({

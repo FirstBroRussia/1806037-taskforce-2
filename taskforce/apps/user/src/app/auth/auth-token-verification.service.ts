@@ -2,7 +2,6 @@ import { Injectable, Logger, LoggerService } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthRepository } from "../auth-repository/auth.repository";
 import { AuthUserEntity } from "../auth-repository/entity/auth-user.entity";
-import { UserRepository } from "../user-repository/user.repository";
 
 @Injectable()
 export class AuthTokenVerificationService {

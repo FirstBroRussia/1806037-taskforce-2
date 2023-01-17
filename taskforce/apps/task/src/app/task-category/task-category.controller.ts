@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Post, Put, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AllExceptionsFilter, fillDTO, fillObject, handleError } from '@taskforce/core';
+import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
 import { CreateTaskCategoryDto } from './dto/create-task-category.dto';
 import { UpdateTaskCategoryDto } from './dto/update-task-category.dto';
 import { TaskCategoryRdo } from './rdo/task-category.rdo';
@@ -23,10 +23,10 @@ export class TaskCategoryController {
   @Get('/')
   @HttpCode(HttpStatus.OK)
   async getAll() {
-    return fillObject(
+    return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.getAll()
-              .catch(err => handleError(err))
+              .catch(err => handleHttpError(err))
     );
   }
 
@@ -36,10 +36,10 @@ export class TaskCategoryController {
   })
   @Get('/:id')
   async get(@Param('id', ParseIntPipe) categoryId: number) {
-    return fillObject(
+    return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.getById(categoryId)
-              .catch(err => handleError(err))
+              .catch(err => handleHttpError(err))
     );
   }
 
@@ -50,10 +50,11 @@ export class TaskCategoryController {
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() dto: CreateTaskCategoryDto) {
+    console.log(dto);
     return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.create(dto)
-              .catch(err => handleError(err))
+              .catch(err => handleHttpError(err))
     );
   }
 
@@ -65,7 +66,7 @@ export class TaskCategoryController {
   @HttpCode(HttpStatus.OK)
   async delete(@Param('id', ParseIntPipe) categoryId: number) {
     await this.taskCategoryService.delete(categoryId)
-            .catch(err => handleError(err));
+            .catch(err => handleHttpError(err));
 
     return `Delete category with id: ${categoryId} is successful`;
   }
@@ -77,10 +78,10 @@ export class TaskCategoryController {
   @Put('/:id')
   @HttpCode(HttpStatus.CREATED)
   async update(@Param('id', ParseIntPipe) categoryId: number, @Body() dto: UpdateTaskCategoryDto) {
-    return fillObject(
+    return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.update(categoryId, dto)
-              .catch(err => handleError(err))
+              .catch(err => handleHttpError(err))
     );
   }
 

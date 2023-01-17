@@ -50,7 +50,6 @@ export class UserRepository {
   }
 
   public async update(id: string, dto: UpdateUserDtoType): Promise<UserEntityType> {
-    console.log(dto);
     const result =  await this.mongoDbUsersCollection.findOneAndUpdate(
       {
         _id: new ObjectId(id),
@@ -66,6 +65,40 @@ export class UserRepository {
     );
 
     return result.value as unknown as UserEntityType;
+  }
+
+  public async updateRating(id: string, rating: number): Promise<UserEntityType> {
+    return await this.performerUserModel.findOneAndUpdate(
+      {
+        _id: new ObjectId(id),
+      },
+      {
+        $set: {
+          rating: rating,
+        }
+      },
+      {
+        returnDocument: 'after',
+      }
+    );
+  }
+
+  public async updateTaskList(userId: string, taskId: number): Promise<UserEntityType> {
+    const { tasks } = await this.performerUserModel.findById(userId);
+    tasks.push(taskId);
+    return await this.performerUserModel.findOneAndUpdate(
+      {
+        _id: new ObjectId(userId),
+      },
+      {
+        $set: {
+          tasks: tasks,
+        },
+      },
+      {
+        returnDocument: 'after',
+      }
+    );
   }
 
   public async updatePassword(id: string, newPasswordHash: string): Promise<UserEntityType> {

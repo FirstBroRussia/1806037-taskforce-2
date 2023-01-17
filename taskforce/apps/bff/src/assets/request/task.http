@@ -1,0 +1,67 @@
+POST http://localhost:3333/api/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MyZWJkZDgyNWJhODY4MGY2NTRkZGIiLCJpYXQiOjE2NzM3MTg3NDksImV4cCI6MTY3MzcxOTM0OX0.r-JhZeqyGvnP1jLAtPaOP6zXuWKcstuTJwFyPi0JLmM
+Content-Type: application/json
+
+{
+  "userId": "10",
+  "title": "Чистка квартиры. Чистка квартиры.",
+  "description": "Надо убирать полностью квартиры, мытье полов, мойка ковров, мистер Клинер.Надо убирать полностью квартиры, мытье полов, мойка ковров, мистер Клинер.",
+  "category": "Аутсорсинг",
+  "price": 8000,
+  "tags": "fsddsfn daasd dsaasd"
+}
+
+###
+GET http://localhost:3333/api/tasks?limit=2&page=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxNGVlZmE4ZDA1YjJjNWZkNTgxYmUiLCJpYXQiOjE2NzM2MTMwMzksImV4cCI6MTY3MzYxMzYzOX0.Lxuih5220ZfGmG6-gH-LuAXbiPfqLyTCQScxKunz1ok
+
+###
+GET http://localhost:3333/api/tasks/task/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxNGVlZmE4ZDA1YjJjNWZkNTgxYmUiLCJpYXQiOjE2NzM2MTMwMzksImV4cCI6MTY3MzYxMzYzOX0.Lxuih5220ZfGmG6-gH-LuAXbiPfqLyTCQScxKunz1ok
+
+###
+PUT http://localhost:3333/api/tasks/task/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxNjc4MmE4ZDA1YjJjNWZkNTgyOWMiLCJpYXQiOjE2NzM2MTkzMzAsImV4cCI6MTY3MzYxOTkzMH0.6I7hj32hRYGHPl9OfEO80hskWgZ_o-KRNMRn7ikbe7o
+Content-Type: application/json
+
+{
+  # "category": "Комбайнер",
+  "tags": ["digital"]
+}
+
+###
+PUT http://localhost:3333/api/tasks/task/2/updatestatus
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxNmQxOGE4ZDA1YjJjNWZkNTgyZDEiLCJpYXQiOjE2NzM2MjA3NjAsImV4cCI6MTY3MzYyMTM2MH0.ygm-5nBuYzRcW4K1FdEsqgCSBEBB4gEQG0Uj8Ld0v7w
+Content-Type: application/json
+
+{
+  "statusTask": "Working"
+}
+
+###
+PATCH http://localhost:3333/api/tasks/task/3/chooseperformer
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E1OTFlMDI1MTE4NDJjY2ZmMDI5YWYiLCJlbWFpbCI6InVzZXJAdXNlcnMuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMTkxZGMzYmZkMDU4YzNlNGUyYjg0IiwiaWF0IjoxNjczNjMwMTcyLCJleHAiOjE2NzM2MzA3NzJ9.NdWQc6bvv4mIacEasBrnlZSU3SGWVx3ogA-dvBhZjto
+
+###
+PATCH http://localhost:3333/api/tasks/task/3/addreply
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E1OTFlMDI1MTE4NDJjY2ZmMDI5YWYiLCJlbWFpbCI6InVzZXJAdXNlcnMuY29tIiwicm9sZSI6IlBlcmZvcm1lciIsImZpcnN0bmFtZSI6IkFuZHJleSIsImxhc3RuYW1lIjoiUGV0cm92IiwiYXV0aElkIjoiNjNjMWM5ODdlMmFmNDljMWYyYWQ3NzRjIiwiaWF0IjoxNjczNjQ0NDIzLCJleHAiOjE2NzM2NDUwMjN9.0AKjS-H0uYbu3kPUn9JG9zKLnhmG8uV46fz9LlSSK90
+
+###
+DELETE http://localhost:3333/api/tasks/task/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2M2E4YWE3MjcyYzQ5YjM5Y2U4NjE3ZjIiLCJlbWFpbCI6ImN1c3RvbWVyQGN1c3RvbWVyLmNvbSIsInJvbGUiOiJDdXN0b21lciIsImZpcnN0bmFtZSI6IjIyMjIyMjIyMiIsImxhc3RuYW1lIjpudWxsLCJhdXRoSWQiOiI2M2MxY2NlNWUyYWY0OWMxZjJhZDc3NzEiLCJpYXQiOjE2NzM2NDUyODUsImV4cCI6MTY3MzY0NTg4NX0.4hO4d4CJSZX15DY_IQ9ljO3X8t39IVQxa2EijBdNmT8
+
+###
+
+
+
+
+
+
+
+
+
+
+GET http://localhost:3333/api/categories
+
+###
+

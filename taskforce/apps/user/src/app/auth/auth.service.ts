@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger, LoggerService } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { comparePassword, createEventForRabbitMq, CustomError } from '@taskforce/core';
 import { UserEntityType } from '../../assets/type/types';
 import { AuthUserDto } from './dto/auth-user.dto';
@@ -13,8 +13,6 @@ import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService {
-  private readonly logger: LoggerService = new Logger(AuthService.name);
-
   constructor (
     private readonly userRepository: UserRepository,
     private readonly authRepository: AuthRepository,
@@ -127,13 +125,15 @@ export class AuthService {
       lastname: jwtPayload.lastname,
     };
 
-
-    if (!existAuthUsers.find(item => {
+    const existAuthUsersAction = existAuthUsers.find(item => {
       if (item.refreshToken === refreshToken) {
         payload['authId'] = item.id;
+
         return item;
       }
-    })) {
+    });
+
+    if (!existAuthUsersAction) {
       throw new CustomError(`This refresh token is invalid.`, ExceptionEnum.Conflict);
     }
 

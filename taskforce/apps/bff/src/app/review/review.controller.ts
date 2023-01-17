@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
 import { CreateReviewBFFDto, CustomerRoleInterceptor, MongoIdValidationPipe, ReviewScoreListDto } from '@taskforce/shared-types';
@@ -12,8 +12,6 @@ import { AuthGuard } from '../../assets/guard/auth.guard';
 @UseGuards(AuthGuard)
 @UseInterceptors(CustomerRoleInterceptor)
 export class ReviewController {
-  private readonly logger: LoggerService = new Logger(ReviewController.name);
-
   constructor (
     private readonly httpService: HttpService,
   ) {  }

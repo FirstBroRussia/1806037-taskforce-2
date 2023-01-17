@@ -1,4 +1,4 @@
-import { Injectable, Logger, LoggerService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CustomError } from '@taskforce/core';
 import { ExceptionEnum, TaskCategoryInterface } from '@taskforce/shared-types';
 import { TaskCategoryEntity } from '../task-repository/entities/task-category.entity';
@@ -8,8 +8,6 @@ import { UpdateTaskCategoryDto } from './dto/update-task-category.dto';
 
 @Injectable()
 export class TaskCategoryService {
-  private readonly logger: LoggerService = new Logger(TaskCategoryService.name);
-
   constructor(
     private readonly taskCategoryRepository: TaskCategoryRepository,
   ) { }

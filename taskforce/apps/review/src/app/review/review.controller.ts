@@ -34,7 +34,10 @@ export class ReviewController {
   public async getAllReviewByUserId(@Param('performerUserId', MongoIdValidationPipe) performerUserId: string): Promise<ReviewEntity[] | void> {
     return await this.reviewService.getAllReviewByUserId(performerUserId)
             .then((result) => {
-              if (!result) throw new CustomError(`The comment list for this user: ${performerUserId} was not found.`, ExceptionEnum.NotFound);
+              if (!result) {
+                throw new CustomError(`The comment list for this user: ${performerUserId} was not found.`, ExceptionEnum.NotFound)
+              }
+
               return result;
             })
             .catch((error) => handleHttpError(error))

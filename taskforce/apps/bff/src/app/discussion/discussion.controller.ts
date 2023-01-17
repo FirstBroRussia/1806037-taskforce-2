@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@taskforce/core';
 import { CommentBFFDto, CreateCommentBFFDto, MongoIdValidationPipe } from '@taskforce/shared-types';
@@ -11,8 +11,6 @@ import { DataTransformInterceptor } from '../../assets/interceptor/data-transfor
 @Controller('comments')
 @UseFilters(AllExceptionsFilter)
 export class DiscussionController {
-  private readonly logger: LoggerService = new Logger(DiscussionController.name);
-
   constructor (
     private readonly httpService: HttpService,
   ) {  }

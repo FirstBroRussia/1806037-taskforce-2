@@ -3,7 +3,6 @@ import { CommandEventEnum, ExceptionEnum, TaskStatusEnum, UserRoleEnum } from '@
 import { checkUpdateStatusTaskFn } from '../../assets/helper/heplers';
 import { TaskCategoryService } from '../task-category/task-category.service';
 import { TaskEntity } from '../task-repository/entities/task.entity';
-import { TaskCategoryRepository } from '../task-repository/task-category.repository';
 import { TaskRepository } from '../task-repository/task.repository';
 import { ReplyPerformerUserIdDto } from './dto/reply-performer-userid.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -19,7 +18,6 @@ export class TaskService {
   constructor (
     private readonly taskRepository: TaskRepository,
     private readonly taskCategoryService: TaskCategoryService,
-    private readonly taskCategoryRepository: TaskCategoryRepository,
     @Inject('RABBITMQ_CLIENT') private readonly rabbitMqClient: ClientProxy,
   ) { }
 

@@ -1,4 +1,4 @@
-import { Injectable, Logger, LoggerService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CustomError } from '@taskforce/core';
 import { ExceptionEnum } from '@taskforce/shared-types';
 import { SUBSCRIBERS_LIMIT_COUNT } from '../../assets/constant/constants';
@@ -10,8 +10,6 @@ import { NewTaskNotifyDto } from './dto/new-task-notify.dto';
 
 @Injectable()
 export class EmailSubscriberService {
-  private readonly logger: LoggerService = new Logger(EmailSubscriberService.name);
-
   constructor (
     private readonly notifyRepository: NotifyRepository,
     private readonly mailService: MailService,

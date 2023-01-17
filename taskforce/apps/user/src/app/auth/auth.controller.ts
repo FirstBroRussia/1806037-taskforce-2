@@ -1,5 +1,5 @@
-import { Controller, Post, HttpCode, HttpStatus, Body, LoggerService, Logger, UseGuards, Req, UseFilters, Get, Res, UseInterceptors } from '@nestjs/common';
-import { Express, Request } from 'express';
+import { Controller, Post, HttpCode, HttpStatus, Body, UseGuards, Req, UseFilters, Get, UseInterceptors } from '@nestjs/common';
+import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
@@ -18,8 +18,6 @@ import { CreatedUserDto } from './dto/created-user.dto';
 @Controller('auth')
 @UseFilters(AllExceptionsFilter)
 export class AuthController {
-  private readonly logger: LoggerService = new Logger(AuthController.name);
-
   constructor (
     private readonly authService: AuthService,
   ) { }
@@ -31,7 +29,7 @@ export class AuthController {
   @Post('register')
   @UseInterceptors(FileInterceptor('avatar'))
   @HttpCode(HttpStatus.CREATED)
-  async create(@Req() req: Request, @Body() dto: CreateUserDto) {
+  async create(@Body() dto: CreateUserDto) {
     return fillDTO(
       CreatedUserDto,
       await this.authService.register(dto)

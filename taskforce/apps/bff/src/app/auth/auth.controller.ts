@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Get, HttpCode, HttpStatus, Logger, LoggerService, Post, Req, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseFilters, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@taskforce/core';
@@ -11,8 +11,6 @@ import { MicroserviceUrlEnum } from '../../assets/enum/microservice-url.enum';
 @Controller('auth')
 @UseFilters(AllExceptionsFilter)
 export class AuthController {
-  private readonly logger: LoggerService = new Logger(AuthController.name);
-
   constructor (
     private readonly httpService: HttpService,
   ) {  }

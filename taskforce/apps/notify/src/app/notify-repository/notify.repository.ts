@@ -1,11 +1,10 @@
-import { Injectable, Logger, LoggerService } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { EmailSubscriberEntity } from "./entity/email-subscriber.entity";
 
 @Injectable()
 export class NotifyRepository {
-  private readonly logger: LoggerService = new Logger(NotifyRepository.name)
 
   constructor (
     @InjectModel(EmailSubscriberEntity.name) private readonly emailSubscriberModel: Model<EmailSubscriberEntity>,

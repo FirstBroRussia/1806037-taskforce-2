@@ -1,5 +1,5 @@
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
-import { Injectable, Logger, LoggerService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { NOTIFY_SUBJECT_TEXT } from '../../assets/constant/constants';
 import { CreateEmailSubscriberDto } from '../email-subscriber/dto/create-email-subscriber.dto';
 import { NotifySubscriberAboutNewTaskDto } from '../email-subscriber/dto/notify-subscriber-about-new-task.dto';
@@ -7,8 +7,6 @@ import { NotifyRepository } from '../notify-repository/notify.repository';
 
 @Injectable()
 export class MailService {
-  private readonly logger: LoggerService = new Logger(MailService.name);
-
   constructor (
     private readonly mailerService: MailerService,
     private readonly notifyRepository: NotifyRepository,

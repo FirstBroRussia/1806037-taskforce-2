@@ -5,7 +5,9 @@ import { IsNumber, IsOptional } from "class-validator";
 export class CommentQuery {
   @Transform(({ value }) => {
     const numValue = +value;
-    if (numValue < 1) return DEFAULT_COMMENT_COUNT;
+    if (numValue < 1) {
+      return DEFAULT_COMMENT_COUNT
+    }
 
     return numValue;
   })

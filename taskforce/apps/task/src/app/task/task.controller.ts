@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, Patch, Post, Put, Query, Req, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
 import { ReplyPerformerUserIdDto } from './dto/reply-performer-userid.dto';
@@ -19,8 +19,6 @@ import { MongoIdValidationPipe } from '@taskforce/shared-types';
 @Controller('tasks')
 @UseFilters(AllExceptionsFilter)
 export class TaskController {
-  private readonly logger: LoggerService = new Logger(TaskController.name);
-
   constructor (
     private readonly taskService: TaskService,
   ) { }

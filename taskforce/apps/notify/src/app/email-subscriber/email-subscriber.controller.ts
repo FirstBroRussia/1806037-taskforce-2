@@ -1,4 +1,4 @@
-import { Controller, Logger, LoggerService, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@taskforce/core';
@@ -10,8 +10,6 @@ import { EmailSubscriberService } from './email-subscriber.service';
 @Controller()
 @UseFilters(AllExceptionsFilter)
 export class EmailSubscriberController {
-  private readonly logger: LoggerService = new Logger(EmailSubscriberController.name);
-
   constructor (
     private readonly emailSubscriberService: EmailSubscriberService,
   ) { }

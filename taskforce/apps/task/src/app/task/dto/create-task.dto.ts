@@ -74,6 +74,7 @@ export class CreateTaskDto {
     if (typeof obj.tags !== 'string') {
       throw new CustomError('Field "tags" must be a STRING type', ExceptionEnum.Conflict);
     }
+
     let tagsArr: string[] = obj.tags.split(' ');
     tagsArr = Array.from(new Set(tagsArr));
     tagsArr = tagsArr.map(item => item.toLowerCase());

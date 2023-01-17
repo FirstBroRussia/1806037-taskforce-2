@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Patch, Post, Put, Query, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { AllExceptionsFilter } from '@taskforce/core';
 import { Request } from 'express';
@@ -11,8 +11,6 @@ import { DataTransformInterceptor } from '../../assets/interceptor/data-transfor
 @UseFilters(AllExceptionsFilter)
 @UseGuards(AuthGuard)
 export class TaskController {
-  private readonly logger: LoggerService = new Logger(TaskController.name);
-
   constructor (
     private readonly httpService: HttpService,
   ) {  }

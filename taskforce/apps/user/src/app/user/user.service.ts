@@ -12,7 +12,6 @@ export class UserService {
     private readonly userRepository: UserRepository
   ) { }
 
-
   public async findUserById(id: string): Promise<UserEntityType> {
     const existUser =  await this.userRepository.findById(id);
 

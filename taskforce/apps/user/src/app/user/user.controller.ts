@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Patch, Put, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Put, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllExceptionsFilter, CustomError, fillDTO, handleHttpError } from '@taskforce/core';
 import { ExceptionEnum, MongoIdValidationPipe, UserRoleEnum } from '@taskforce/shared-types';
@@ -20,8 +20,6 @@ import { UserService } from './user.service';
 @Controller('users')
 @UseFilters(AllExceptionsFilter)
 export class UserController {
-  private readonly logger: LoggerService = new Logger(UserController.name);
-
   constructor (
     private readonly userService: UserService
   ) { }

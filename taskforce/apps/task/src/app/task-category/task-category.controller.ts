@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Logger, LoggerService, Param, ParseIntPipe, Post, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
 import { CreateTaskCategoryDto } from './dto/create-task-category.dto';
@@ -10,8 +10,6 @@ import { TaskCategoryService } from './task-category.service';
 @Controller('categories')
 @UseFilters(AllExceptionsFilter)
 export class TaskCategoryController {
-  private readonly logger: LoggerService = new Logger(TaskCategoryController.name);
-
   constructor(
     private readonly taskCategoryService: TaskCategoryService,
   ) { }

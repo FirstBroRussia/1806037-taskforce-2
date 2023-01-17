@@ -1,12 +1,10 @@
-import { Injectable, Logger, LoggerService } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { TaskCategoryInterface } from "@taskforce/shared-types";
 import { PrismaService } from "../prisma/prisma.service";
 import { TaskCategoryEntity } from "./entities/task-category.entity";
 
 @Injectable()
 export class TaskCategoryRepository {
-  private readonly logger: LoggerService = new Logger(TaskCategoryRepository.name);
-
   constructor(
     private readonly prismaService: PrismaService,
   ) { }

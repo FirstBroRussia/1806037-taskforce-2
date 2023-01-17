@@ -6,7 +6,7 @@ import { AuthUserEntity } from "../auth-repository/entity/auth-user.entity";
 @Injectable()
 export class AuthTokenVerificationService {
   private readonly logger: LoggerService = new Logger(AuthTokenVerificationService.name);
-  private readonly intervalTime = 1000 * 30; // TODO 30 секунд между проверками
+  private readonly intervalTime = 1000 * 30;
 
   constructor(
     private readonly authRepository: AuthRepository,

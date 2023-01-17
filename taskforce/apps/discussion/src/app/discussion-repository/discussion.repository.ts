@@ -6,8 +6,6 @@ import { CommentQuery } from '../comment/query/comment.query';
 
 @Injectable()
 export class DiscussionRepository {
-  private discussRepository: object = {};
-
   constructor (
     @InjectModel(CommentEntity.name) private readonly commentModel: Model<CommentEntity>,
   ) { }

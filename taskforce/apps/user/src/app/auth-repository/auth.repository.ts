@@ -1,4 +1,4 @@
-import { Injectable, Logger, LoggerService } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AuthDataUserDto } from "../auth/dto/auth-data-user.dto";
@@ -7,7 +7,6 @@ import { AuthUserEntity } from "./entity/auth-user.entity";
 
 @Injectable()
 export class AuthRepository {
-  private readonly logger: LoggerService = new Logger(AuthRepository.name);
 
   constructor(
     @InjectModel(AuthUserEntity.name) private readonly authUserModel: Model<AuthUserEntity>,

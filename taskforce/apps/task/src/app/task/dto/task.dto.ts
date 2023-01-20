@@ -52,7 +52,7 @@ export class TaskDto {
 
   @ApiProperty()
   @Expose()
-  public repliedPerformers: any[];
+  public repliedPerformers: string[];
 
   @ApiProperty()
   @Expose()

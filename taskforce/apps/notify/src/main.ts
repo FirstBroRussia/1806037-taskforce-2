@@ -7,6 +7,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NEST_DEFAULT_PORT } from '@taskforce/shared-types';
 
 import { AppModule } from './app/app.module';
 import { getRabbitMqConfigForEmailSubscriber } from './config/get-rabbitmq-for-email-subscriber.config';
@@ -16,7 +17,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || NEST_DEFAULT_PORT;
 
   const config = new DocumentBuilder()
                    .setTitle('The «Notify» service')

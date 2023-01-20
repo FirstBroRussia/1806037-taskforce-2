@@ -6,6 +6,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NEST_DEFAULT_PORT } from '@taskforce/shared-types';
 
 import { AppModule } from './app/app.module';
 import { PrismaService } from './app/prisma/prisma.service';
@@ -37,7 +38,7 @@ async function bootstrap() {
     },
   }));
 
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || NEST_DEFAULT_PORT;
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`

@@ -9,12 +9,13 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
+import { NEST_DEFAULT_PORT } from '@taskforce/shared-types';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3333;
+  const port = process.env.PORT || NEST_DEFAULT_PORT;
 
   const config = new DocumentBuilder()
                    .setTitle('The «BFF» service')

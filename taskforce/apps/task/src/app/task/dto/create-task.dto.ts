@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CurrentDateValidator, CustomError } from '@taskforce/core';
 import { ExceptionEnum } from '@taskforce/shared-types';
-import { TagsValidator } from 'apps/task/src/assets/validate/tags-dto.validator';
 import { Expose, Transform } from 'class-transformer';
+import { TagsValidator } from '../../../assets/validate/tags-dto.validator';
 import { IsArray, IsDefined, IsInt, IsMongoId, IsNotEmpty, IsString, MaxLength, Min, MinLength, Validate } from 'class-validator';
 
 export class CreateTaskDto {

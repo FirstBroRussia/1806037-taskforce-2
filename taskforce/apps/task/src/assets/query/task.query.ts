@@ -1,23 +1,23 @@
+import { ONE_VALUE } from "@taskforce/shared-types";
 import { Transform } from "class-transformer";
 import { IsArray, IsIn, IsNumber, IsOptional, IsString } from "class-validator";
-import { DEFAULT_PAGINATION_COUNT, DEFAULT_SORT_VALUE, DEFAULT_TASKS_LIMIT } from "../constant/constants";
-
+import { TaskDefaultValueEnum } from "../constant/constants";
 
 export class TaskQuery {
   @Transform(({ value }) => {
     const numValue = +value;
-    if (numValue < 1) return DEFAULT_TASKS_LIMIT;
+    if (numValue < ONE_VALUE) return TaskDefaultValueEnum.DEFAULT_TASKS_LIMIT;
 
     return numValue;
   })
   @IsNumber()
   @IsOptional()
-  public limit = DEFAULT_TASKS_LIMIT;
+  public limit = TaskDefaultValueEnum.DEFAULT_TASKS_LIMIT;
 
-  @Transform(({ value }) => +value || DEFAULT_PAGINATION_COUNT)
+  @Transform(({ value }) => +value || TaskDefaultValueEnum.DEFAULT_PAGINATION_COUNT)
   @IsNumber()
   @IsOptional()
-  public page = DEFAULT_PAGINATION_COUNT;
+  public page = TaskDefaultValueEnum.DEFAULT_PAGINATION_COUNT;
 
   @Transform(({ value }) => value.split(','))
   @IsArray()
@@ -41,5 +41,5 @@ export class TaskQuery {
 
   @IsIn(['desc', 'popular'])
   @IsOptional()
-  public sort: 'desc' | 'popular' = DEFAULT_SORT_VALUE;
+  public sort: 'desc' | 'popular' = TaskDefaultValueEnum.DEFAULT_SORT_VALUE;
 }

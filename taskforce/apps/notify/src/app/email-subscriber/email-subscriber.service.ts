@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { CustomError } from '@taskforce/core';
-import { ExceptionEnum } from '@taskforce/shared-types';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { SUBSCRIBERS_LIMIT_COUNT } from '../../assets/constant/constants';
 import { MailService } from '../mailer/mail.service';
 import { EmailSubscriberEntity } from '../notify-repository/entity/email-subscriber.entity';
@@ -20,7 +18,7 @@ export class EmailSubscriberService {
     const existSubscriber = await this.notifyRepository.findByEmail(email);
 
     if (existSubscriber) {
-      throw new CustomError('The subscriber with same email already exists', ExceptionEnum.Conflict);
+      throw new ConflictException('The subscriber with same email already exists');
     }
 
     const createdSubscriber = await this.notifyRepository.create(new EmailSubscriberEntity().fillEntity(dto));

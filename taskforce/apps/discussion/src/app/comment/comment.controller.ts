@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
+import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
 import { CommentService } from './comment.service';
 import { CommentDto } from './dto/comment.dto';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -43,8 +43,7 @@ export class CommentController {
   @HttpCode(HttpStatus.OK)
   public async deleteComment(@Req() req: Request, @Param('commentId') commentId: string): Promise<string> {
     const userId = req.headers['userid'] as string;
-    await this.commentService.delete(commentId, userId)
-      .catch((error) => handleHttpError(error));
+    await this.commentService.delete(commentId, userId);
 
     return 'OK';
   }

@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { UserRoleEnum } from "@taskforce/shared-types";
-import { UserRoleType } from "libs/shared-types/src/lib/type/user-role.type";
+import { UserRoleEnum, UserRoleType } from "@taskforce/shared-types";
 import { Document } from "mongoose";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

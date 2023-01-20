@@ -1,11 +1,10 @@
 import * as dayjs from 'dayjs';
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { UserInterface, UserRoleEnum } from "@taskforce/shared-types";
+import { UserInterface, UserRoleEnum, UserRoleType } from "@taskforce/shared-types";
 import { getHashPassword } from '@taskforce/core';
 
 import { CreateUserDto } from "../../auth/dto/create-user.dto";
-import { UserRoleType } from 'libs/shared-types/src/lib/type/user-role.type';
 import { Document } from 'mongoose';
 
 

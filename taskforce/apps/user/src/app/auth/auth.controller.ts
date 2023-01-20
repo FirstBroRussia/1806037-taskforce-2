@@ -2,7 +2,7 @@ import { Controller, Post, HttpCode, HttpStatus, Body, UseGuards, Req, UseFilter
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
-import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
+import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
 import { AuthService } from './auth.service';
 import { JwtTokensDto } from './dto/jwt-tokens.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
@@ -32,8 +32,7 @@ export class AuthController {
   async create(@Body() dto: CreateUserDto) {
     return fillDTO(
       CreatedUserDto,
-      await this.authService.register(dto)
-              .catch(err => handleHttpError(err)) as UserEntityType
+      await this.authService.register(dto) as UserEntityType
       );
   }
 
@@ -46,7 +45,6 @@ export class AuthController {
   async login(@Body() dto: AuthUserDto) {
     return fillDTO(JwtTokensDto,
       await this.authService.login(dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -63,7 +61,6 @@ export class AuthController {
 
     return fillDTO(JwtAccessTokenDto,
       await this.authService.refreshToken(refreshToken)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -77,8 +74,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req: Request) {
     const authId = req.user['authId'];
-    await this.authService.logout(authId)
-            .catch(err => handleHttpError(err));
+    await this.authService.logout(authId);
 
     return 'OK';
   }

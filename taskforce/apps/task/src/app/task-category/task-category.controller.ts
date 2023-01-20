@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
+import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
 import { CreateTaskCategoryDto } from './dto/create-task-category.dto';
 import { UpdateTaskCategoryDto } from './dto/update-task-category.dto';
 import { TaskCategoryRdo } from './rdo/task-category.rdo';
@@ -24,7 +24,6 @@ export class TaskCategoryController {
     return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.getAll()
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -37,7 +36,6 @@ export class TaskCategoryController {
     return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.getById(categoryId)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -52,7 +50,6 @@ export class TaskCategoryController {
     return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.create(dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -63,8 +60,7 @@ export class TaskCategoryController {
   @Delete('/:id')
   @HttpCode(HttpStatus.OK)
   async delete(@Param('id', ParseIntPipe) categoryId: number) {
-    await this.taskCategoryService.delete(categoryId)
-            .catch(err => handleHttpError(err));
+    await this.taskCategoryService.delete(categoryId);
 
     return `Delete category with id: ${categoryId} is successful`;
   }
@@ -79,7 +75,6 @@ export class TaskCategoryController {
     return fillDTO(
       TaskCategoryRdo,
       await this.taskCategoryService.update(categoryId, dto)
-              .catch(err => handleHttpError(err))
     );
   }
 

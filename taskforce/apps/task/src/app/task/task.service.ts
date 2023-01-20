@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CommandEventEnum, ExceptionEnum, TaskStatusEnum, UserRoleEnum } from '@taskforce/shared-types';
+import { BadRequestException, ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CommandEventEnum, TaskStatusEnum, UserRoleEnum } from '@taskforce/shared-types';
 import { checkUpdateStatusTaskFn } from '../../assets/helper/heplers';
 import { TaskCategoryService } from '../task-category/task-category.service';
 import { TaskEntity } from '../task-repository/entities/task.entity';
@@ -9,7 +9,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { ChoosePerformerUserIdDto } from './dto/choose-performer-userid.dto';
 import { TaskQuery } from '../../assets/query/task.query';
-import { createEventForRabbitMq, CustomError } from '@taskforce/core';
+import { createEventForRabbitMq } from '@taskforce/core';
 import { ClientProxy } from '@nestjs/microservices';
 import { StatusTaskDto } from './dto/status-task.dto';
 
@@ -52,7 +52,7 @@ export class TaskService {
     const existTask = await this.taskRepository.findById(taskId);
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} was not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} was not found`);
     }
 
     return existTask as unknown as TaskEntity;
@@ -60,17 +60,17 @@ export class TaskService {
 
   public async updateTaskById(taskId: number, dto: UpdateTaskDto): Promise<TaskEntity> {
     if (dto.role !== UserRoleEnum.Customer) {
-      throw new CustomError(`You are not allowed to create tasks`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`You are not allowed to create tasks`);
     }
 
     const existTask = await this.taskRepository.findById(taskId);
     const userId = dto.userId;
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
     if (existTask.userId !== userId) {
-      throw new CustomError(`This user is not the owner of this task`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`This user is not the owner of this task`);
     }
 
     let existCategory = await this.taskCategoryService.getByName(dto.category);
@@ -92,17 +92,17 @@ export class TaskService {
     const status = dto.statusTask;
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
     if (existTask.userId !== userId) {
-      throw new CustomError(`This user is not the owner of this task`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`This user is not the owner of this task`);
     }
 
     const currentStatus = existTask.status;
     const checkResult =  checkUpdateStatusTaskFn(currentStatus, status);
 
     if (typeof checkResult !== 'boolean') {
-      throw new CustomError(checkResult, ExceptionEnum.BadRequest);
+      throw new BadRequestException(checkResult);
     }
 
     return await this.taskRepository.updateStatus(taskId, status) as unknown as TaskEntity;
@@ -110,22 +110,22 @@ export class TaskService {
 
   public async choosePerformerUserIdToTaskById(taskId: number, dto: ChoosePerformerUserIdDto): Promise<TaskEntity> {
     if (dto.role !== UserRoleEnum.Performer) {
-      throw new CustomError(`You can't take a task to work`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`You can't take a task to work`);
     }
 
     const existTask = await this.taskRepository.findById(taskId);
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
     if (existTask.status !== TaskStatusEnum.New) {
-      throw new CustomError(`Task with this ID: ${taskId} cannot be taken to work`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`Task with this ID: ${taskId} cannot be taken to work`);
     }
 
     const { userId } = dto;
 
     if (userId === existTask.currentPerformer) {
-      throw new CustomError(`This user: ${userId} has already been selected as the task executor`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`This user: ${userId} has already been selected as the task executor`);
     }
 
     return await this.taskRepository.choosePerformerUserIdToTaskById(taskId, userId) as unknown as TaskEntity;
@@ -133,13 +133,13 @@ export class TaskService {
 
   public async addReplyPerformerUserIdToTaskById(taskId: number, dto: ReplyPerformerUserIdDto): Promise<TaskEntity> {
     if (dto.role !== UserRoleEnum.Performer) {
-      throw new CustomError(`You can't take a task to work`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`You can't take a task to work`);
     }
 
     const existTask = await this.taskRepository.findById(taskId);
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
 
     const { userId } = dto;
@@ -147,7 +147,7 @@ export class TaskService {
     const isTargetReply = existTask.repliedPerformers.find(item => item === userId)
 
     if (isTargetReply) {
-      throw new CustomError(`This user: ${userId} has already responded to this task`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`This user: ${userId} has already responded to this task`);
     }
 
     return await this.taskRepository.addReplyPerformerToTaskById(taskId, userId) as TaskEntity;
@@ -157,10 +157,10 @@ export class TaskService {
     const existTask = await this.taskRepository.findById(taskId);
 
     if (existTask.userId !== userId) {
-      throw new CustomError(`No access to delete`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`No access to delete`);
     }
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
 
     return await this.taskRepository.delete(taskId);
@@ -170,16 +170,16 @@ export class TaskService {
     const existTask = await this.taskRepository.findById(taskId);
 
     if (!existTask) {
-      throw new CustomError(`Task with this id: ${taskId} is not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Task with this id: ${taskId} is not found`);
     }
     if (existTask.userId !== ownerId) {
-      throw new CustomError(`You are not the owner of the task`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`You are not the owner of the task`);
     }
     if (existTask.currentPerformer !== performerUserId) {
-      throw new CustomError(`Current performer is not the executor of this task`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`Current performer is not the executor of this task`);
     }
     if (existTask.status !== TaskStatusEnum.Realized) {
-      throw new CustomError(`This task is not COMPLETED`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`This task is not COMPLETED`);
     }
 
     return existTask as TaskEntity;

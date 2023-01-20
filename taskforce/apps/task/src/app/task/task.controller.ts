@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Query, Req, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
+import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
 import { ReplyPerformerUserIdDto } from './dto/reply-performer-userid.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { StatusTaskDto } from './dto/status-task.dto';
@@ -33,7 +33,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.create(dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -47,7 +46,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.get(query)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -61,7 +59,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.getTaskById(taskId)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -75,7 +72,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.updateTaskById(taskId, dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -89,7 +85,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.updateStatusTask(taskId, dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -103,7 +98,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.choosePerformerUserIdToTaskById(taskId, dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -117,7 +111,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.addReplyPerformerUserIdToTaskById(taskId, dto)
-              .catch(err => handleHttpError(err))
     );
   }
 
@@ -129,8 +122,7 @@ export class TaskController {
   @HttpCode(HttpStatus.OK)
   public async deleteTask(@Req() req: Request, @Param('taskId', ParseIntPipe) taskId: number): Promise<string> {
     const userId = req.headers['userid'] as string;
-    await this.taskService.deleteTaskById(taskId, userId)
-            .catch(err => handleHttpError(err));
+    await this.taskService.deleteTaskById(taskId, userId);
 
     return `Delete task with id: ${taskId} is succussful`;
   }
@@ -147,7 +139,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.get(null, idsList, status)
-        .catch(err => handleHttpError(err))
     ) as unknown as TaskDto[];
   }
 
@@ -166,7 +157,6 @@ export class TaskController {
     return fillDTO(
       TaskDto,
       await this.taskService.checkCompleteTaskIsCurrentPerformerByUserId(taskId, ownerId, performerUserId)
-        .catch(err => handleHttpError(err))
     ) as unknown as TaskDto[];
   }
 

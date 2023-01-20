@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Put, Req, UseFilters, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Put, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AllExceptionsFilter, CustomError, fillDTO, handleHttpError } from '@taskforce/core';
-import { ExceptionEnum, MongoIdValidationPipe, UserRoleEnum } from '@taskforce/shared-types';
+import { AllExceptionsFilter, fillDTO, handleHttpError } from '@taskforce/core';
+import { MongoIdValidationPipe, UserRoleEnum } from '@taskforce/shared-types';
 import { validate, ValidationError } from 'class-validator';
 import { Request } from 'express';
 import { UpdateUserDtoType, UserEntityType } from '../../assets/type/types';
@@ -32,8 +32,7 @@ export class UserController {
   @Get('user/:id')
   @HttpCode(HttpStatus.OK)
   async getUserById(@Param('id', MongoIdValidationPipe) id: string) {
-    const existUser = await this.userService.findUserById(id)
-                              .catch(err => handleHttpError(err)) as UserEntityType;
+    const existUser = await this.userService.findUserById(id);
 
     if (existUser.role === UserRoleEnum.Customer) {
       return fillDTO(CustomerUserDto, existUser);
@@ -53,7 +52,6 @@ export class UserController {
     return fillDTO(
       CroppedUserDataDto,
       await this.userService.findUserById(id)
-              .catch(err => handleHttpError(err)) as UserEntityType
       );
   }
 
@@ -65,8 +63,7 @@ export class UserController {
   @Put('user/:id/updatepassword')
   @HttpCode(HttpStatus.CREATED)
   async updatePasswordUserById(@Param('id', MongoIdValidationPipe) id: string, @Body() dto: UpdatePasswordUserDto) {
-    return await this.userService.updatePassword(id, dto)
-                  .catch(err => handleHttpError(err));
+    return await this.userService.updatePassword(id, dto);
   }
 
   @ApiResponse({
@@ -77,11 +74,10 @@ export class UserController {
   @Put('user/:id')
   @HttpCode(HttpStatus.CREATED)
   async updateUserById(@Req() req: Request & { user }, @Param('id', MongoIdValidationPipe) id: string, @Body() dto: UpdateUserDtoType) {
-    const { email, role } = await this.getUserById(id)
-                      .catch(err => handleHttpError(err)) as CustomerUserDto | PerformerUserDto;
+    const { email, role } = await this.getUserById(id) as CustomerUserDto | PerformerUserDto;
 
     if (req.user.email !== email) {
-      throw handleHttpError(new CustomError(`No access!`, ExceptionEnum.Forbidden));
+      throw new ForbiddenException(`No access!`);
     }
 
     let updateUserData: UpdateUserDtoType;
@@ -99,8 +95,7 @@ export class UserController {
       })
       .catch(err => handleHttpError(err)) as unknown as ValidationError[];
 
-    const existUser = await this.userService.updateUserById(id, updateUserData)
-                                .catch(err => handleHttpError(err)) as UserEntityType;
+    const existUser = await this.userService.updateUserById(id, updateUserData) as UserEntityType;
 
       if (existUser.role === UserRoleEnum.Customer) {
         return fillDTO(CustomerUserDto, existUser);
@@ -129,8 +124,7 @@ export class UserController {
   @Delete('user/:id')
   @HttpCode(HttpStatus.OK)
   async deleteUserById(@Param('id', MongoIdValidationPipe) id: string) {
-    await this.userService.deleteUserById(id)
-            .catch(err => handleHttpError(err));
+    await this.userService.deleteUserById(id);
 
     return 'Delete is complete.'
   }
@@ -144,8 +138,7 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async getMyTasks(@Req() req: Request) {
     const userData = req.user as RequestUserDataDto;
-    return await this.userService.getMyTasks(userData)
-                  .catch(err => handleHttpError(err));
+    return await this.userService.getMyTasks(userData);
   }
 
   @ApiResponse({
@@ -155,8 +148,7 @@ export class UserController {
   @Patch('user/:userId/updaterating')
   @HttpCode(HttpStatus.OK)
   async updateRatingPerformerUser(@Param('userId', MongoIdValidationPipe) userId: string, @Body() dto: number[]) {
-    return await this.userService.updateRatingPerformerUser(userId, dto)
-                  .catch(err => handleHttpError(err));
+    return await this.userService.updateRatingPerformerUser(userId, dto);
   }
 
 }

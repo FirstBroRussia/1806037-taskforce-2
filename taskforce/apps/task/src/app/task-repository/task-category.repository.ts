@@ -13,7 +13,7 @@ export class TaskCategoryRepository {
     return this.prismaService.category.create({
       data: { ...item.toObject() },
       include: {
-        posts: true,
+        tasks: true,
       }
     });
   }
@@ -32,7 +32,7 @@ export class TaskCategoryRepository {
         id
       },
       include: {
-        posts: true,
+        tasks: true,
       }
     });
   }
@@ -43,7 +43,7 @@ export class TaskCategoryRepository {
         title: title,
       },
       include: {
-        posts: true,
+        tasks: true,
       }
     });
   }
@@ -56,7 +56,7 @@ export class TaskCategoryRepository {
         }
       },
       include: {
-        posts: true,
+        tasks: true,
       }
     });
   }
@@ -68,7 +68,7 @@ export class TaskCategoryRepository {
       },
       data: { ...item.toObject(), id },
       include: {
-        posts: true,
+        tasks: true,
       }
     });
   }

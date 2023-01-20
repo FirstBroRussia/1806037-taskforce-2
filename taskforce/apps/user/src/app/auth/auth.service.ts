@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { comparePassword, createEventForRabbitMq, CustomError } from '@taskforce/core';
+import { ConflictException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { comparePassword, createEventForRabbitMq } from '@taskforce/core';
 import { UserEntityType } from '../../assets/type/types';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from '../user-repository/user.repository';
 import { JwtService } from '@nestjs/jwt/dist';
-import { CommandEventEnum, ExceptionEnum, UserRoleEnum } from '@taskforce/shared-types';
+import { CommandEventEnum, UserRoleEnum } from '@taskforce/shared-types';
 import { AuthRepository } from '../auth-repository/auth.repository';
 import { AuthUserEntity } from '../auth-repository/entity/auth-user.entity';
 import { JwtPayloadDto } from './dto/jwt-payload.dto';
@@ -24,7 +24,7 @@ export class AuthService {
     const existUser = await this.userRepository.findByEmail(dto.email);
 
     if (existUser) {
-      throw new CustomError('User already exists', ExceptionEnum.Conflict);
+      throw new ConflictException('User already exists');
     }
 
     const createdUser = await this.userRepository.create(dto);
@@ -48,7 +48,7 @@ export class AuthService {
     const existUser = await this.userRepository.findByEmail(email);
 
     if (!existUser) {
-      throw new CustomError(`The user with this email: ${email} was not found`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`The user with this email: ${email} was not found`);
     }
 
     return existUser;
@@ -58,7 +58,7 @@ export class AuthService {
     const isCheckPassword = comparePassword(password, passwordHash);
 
     if (!isCheckPassword) {
-      throw new CustomError(`Invalid password`, ExceptionEnum.Unauthorized);
+      throw new UnauthorizedException(`Invalid password`);
     }
   }
 
@@ -66,11 +66,11 @@ export class AuthService {
     const {email, password} = dto;
 
       const existUser = await this.verifyUser(email).catch((err) => {
-        throw new CustomError(err, ExceptionEnum.NotFound);
+        throw new NotFoundException(err);
       });
 
       await this.verifyPassword(password, existUser.passwordHash).catch((err) => {
-        throw new CustomError(err, ExceptionEnum.Conflict);
+        throw new ConflictException(err);
       });
 
     const tokens = {
@@ -104,7 +104,7 @@ export class AuthService {
       });
     } catch (err) {
       const error = err as Error;
-      throw new CustomError(error.message, ExceptionEnum.Conflict)
+      throw new ConflictException(error.message)
     }
 
     return tokens;
@@ -112,7 +112,7 @@ export class AuthService {
 
   public async refreshToken(refreshToken: string) {
     const jwtPayload: JwtPayloadDto = await this.jwtService.verifyAsync(refreshToken).catch((err) => {
-      throw new CustomError(err, ExceptionEnum.Conflict);
+      throw new ConflictException(err);
     });
 
     const existAuthUsers = await this.authRepository.getAuthUserByEmail(jwtPayload.email) as unknown as AuthUserEntity[];
@@ -134,7 +134,7 @@ export class AuthService {
     });
 
     if (!existAuthUsersAction) {
-      throw new CustomError(`This refresh token is invalid.`, ExceptionEnum.Conflict);
+      throw new ConflictException(`This refresh token is invalid.`);
     }
 
     return {

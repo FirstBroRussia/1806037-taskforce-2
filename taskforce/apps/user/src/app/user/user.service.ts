@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { comparePassword, getHashPassword, getRatingPerformerUser } from '@taskforce/core';
 import { UpdateUserDtoType, UserEntityType } from '../../assets/type/types';
 import { RequestUserDataDto } from '../auth/dto/request-user-data.dto';
@@ -16,7 +16,7 @@ export class UserService {
     const existUser =  await this.userRepository.findById(id);
 
     if (!existUser) {
-      throw new Error(`The user with this id: ${id} was not found`);
+      throw new NotFoundException(`The user with this id: ${id} was not found`);
     }
 
     return existUser;
@@ -26,7 +26,7 @@ export class UserService {
     const existUser =  await this.userRepository.findById(id);
 
     if (!existUser) {
-      throw new Error(`The user with this id: ${id} was not found`);
+      throw new NotFoundException(`The user with this id: ${id} was not found`);
     }
 
     return await this.userRepository.update(id, dto);
@@ -36,10 +36,10 @@ export class UserService {
     const existUser =  await this.userRepository.findById(userId);
 
     if (existUser.email !== emailUser) {
-      throw new Error(`No access!`);
+      throw new ForbiddenException(`No access!`);
     }
     if (!existUser) {
-      throw new Error(`The user with this id: ${userId} was not found`);
+      throw new NotFoundException(`The user with this id: ${userId} was not found`);
     }
 
     return await this.userRepository.updateTaskList(userId, taskId);
@@ -50,13 +50,13 @@ export class UserService {
     const existUser =  await this.userRepository.findById(id);
 
     if (!existUser) {
-      throw new Error(`The user with this id: ${id} was not found`);
+      throw new NotFoundException(`The user with this id: ${id} was not found`);
     }
 
     const isCheckPassword = comparePassword(oldPassword, existUser.passwordHash);
 
     if (!isCheckPassword) {
-      throw new Error('Invalid old password');
+      throw new BadRequestException('Invalid old password');
     }
 
     const newPasswordHash = getHashPassword(newPassword);
@@ -68,7 +68,7 @@ export class UserService {
     const existUser = await this.userRepository.findById(id);
 
     if (!existUser) {
-      throw new Error(`The user with this id: ${id} was not found`);
+      throw new NotFoundException(`The user with this id: ${id} was not found`);
     }
 
     return await this.userRepository.delete(id);
@@ -86,7 +86,7 @@ export class UserService {
     const existUser = await this.userRepository.findById(userId) as PerformerUserEntity;
 
     if (!existUser) {
-      throw new Error(`The user with this id: ${userId} was not found`);
+      throw new NotFoundException(`The user with this id: ${userId} was not found`);
     }
 
     const ratingScoreSum = dto.reduce((prev, curr) => prev + curr);

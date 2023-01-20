@@ -1,9 +1,6 @@
-import { EnvValidationMessage } from "@taskforce/shared-types";
+import { EnvValidationMessage, PortValueEnum } from "@taskforce/shared-types";
 import { plainToInstance } from "class-transformer";
 import { IsNumber, IsString, Max, Min, validateSync } from "class-validator";
-
-const MIN_PORT = 0;
-const MAX_PORT = 65535;
 
 class EnvironmentsConfig {
   @IsString({
@@ -19,8 +16,8 @@ class EnvironmentsConfig {
   @IsNumber({}, {
     message: EnvValidationMessage.MongoDBPortRequired,
   })
-  @Min(MIN_PORT)
-  @Max(MAX_PORT)
+  @Min(PortValueEnum.MinValue)
+  @Max(PortValueEnum.MaxValue)
   public MONGO_PORT: number;
 
   @IsString({
@@ -47,8 +44,8 @@ class EnvironmentsConfig {
   @IsNumber({}, {
     message: 'Mail SMTP port is required',
   })
-  @Min(MIN_PORT)
-  @Max(MAX_PORT)
+  @Min(PortValueEnum.MinValue)
+  @Max(PortValueEnum.MaxValue)
   MAIL_SMTP_PORT: number;
 
   @IsString({

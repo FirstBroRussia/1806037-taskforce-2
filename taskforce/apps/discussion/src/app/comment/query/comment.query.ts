@@ -1,4 +1,4 @@
-import { DEFAULT_COMMENT_COUNT, DEFAULT_PAGINATION_COUNT } from "apps/discussion/src/assets/constants";
+import { DEFAULT_COMMENT_COUNT, DEFAULT_PAGINATION_COUNT } from "../../../assets/constants";
 import { Transform } from "class-transformer";
 import { IsNumber, IsOptional } from "class-validator";
 

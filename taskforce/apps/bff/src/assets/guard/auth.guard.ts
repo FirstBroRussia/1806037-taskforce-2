@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
     private readonly httpService: HttpService,
   ) { }
 
-  async canActivate(context: ExecutionContext): Promise<any> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 
     const { data } = await this.httpService.axiosRef.get(`${MicroserviceUrlEnum.Auth}/checktoken`, {

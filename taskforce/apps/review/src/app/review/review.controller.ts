@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, UseFilters } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AllExceptionsFilter, CustomError, fillDTO, handleHttpError } from '@taskforce/core';
-import { ExceptionEnum, MongoIdValidationPipe } from '@taskforce/shared-types';
+import { AllExceptionsFilter, fillDTO } from '@taskforce/core';
+import { MongoIdValidationPipe } from '@taskforce/shared-types';
 import { ReviewEntity } from '../review-repository/entities/review.entity';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { ReviewDto } from './dto/review.dto';
@@ -35,12 +35,11 @@ export class ReviewController {
     return await this.reviewService.getAllReviewByUserId(performerUserId)
             .then((result) => {
               if (!result) {
-                throw new CustomError(`The comment list for this user: ${performerUserId} was not found.`, ExceptionEnum.NotFound)
+                throw new NotFoundException(`The comment list for this user: ${performerUserId} was not found.`);
               }
 
               return result;
-            })
-            .catch((error) => handleHttpError(error))
+            });
   }
 
 }

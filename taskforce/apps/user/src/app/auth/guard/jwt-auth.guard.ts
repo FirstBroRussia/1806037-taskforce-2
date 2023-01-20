@@ -6,7 +6,7 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
 import { CustomError } from "@taskforce/core";
 import { ExceptionEnum } from "@taskforce/shared-types";
-import { MetadataEnum } from "apps/user/src/assets/enum/metadata.enum";
+import { MetadataEnum } from "../../../assets/enum/metadata.enum";
 import { JwtPayloadDto } from "../dto/jwt-payload.dto";
 
 @Injectable()

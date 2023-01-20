@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { CustomError } from '@taskforce/core';
-import { ExceptionEnum } from '@taskforce/shared-types';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { DiscussionRepository } from '../discussion-repository/discussion.repository';
 import { CommentEntity } from '../discussion-repository/entity/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -30,11 +28,11 @@ export class CommentService {
     const existComment = await this.getCommentById(commentId);
 
     if (!existComment) {
-      throw new CustomError(`Comment with this id: ${commentId} is not found.`, ExceptionEnum.NotFound);
+      throw new NotFoundException(`Comment with this id: ${commentId} is not found.`);
     }
 
     if (existComment.userId !== userId) {
-      throw new CustomError(`Not access to delete a comment.`, ExceptionEnum.Forbidden);
+      throw new ForbiddenException(`Not access to delete a comment.`);
     }
 
     return await this.discussRepository.delete(commentId);

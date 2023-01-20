@@ -1,8 +1,6 @@
+import { PortValueEnum } from '@taskforce/shared-types';
 import { plainToInstance } from 'class-transformer';
 import { IsNumber, IsString, Max, Min, validateSync } from 'class-validator';
-
-const MIN_PORT = 0;
-const MAX_PORT = 65535;
 
 class EnvironmentsConfig {
   @IsString({
@@ -28,8 +26,8 @@ class EnvironmentsConfig {
   @IsNumber({}, {
     message: 'Rabbit port is required',
   })
-  @Min(MIN_PORT)
-  @Max(MAX_PORT)
+  @Min(PortValueEnum.MinValue)
+  @Max(PortValueEnum.MaxValue)
   public RABBIT_PORT: number;
 
   @IsString({

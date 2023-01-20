@@ -1,9 +1,8 @@
-import { UserRoleEnum } from "@taskforce/shared-types";
+import { UserRoleEnum, UserRoleType } from "@taskforce/shared-types";
 import { ApiProperty } from '@nestjs/swagger';
 
 import { IsDefined, IsEmail, IsEnum, IsISO8601, IsNotEmpty, IsString, MaxLength, MinLength, Validate } from 'class-validator';
 import { AdultDateValidator } from "@taskforce/core";
-import { UserRoleType } from "libs/shared-types/src/lib/type/user-role.type";
 
 export class CreateUserDto {
   @ApiProperty({

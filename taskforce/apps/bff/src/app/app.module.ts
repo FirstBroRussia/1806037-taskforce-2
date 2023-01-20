@@ -6,7 +6,6 @@ import { TaskController } from './task/task.controller';
 import { TaskCategoryController } from './task/task-category.controller';
 import { AuthGuard } from '../assets/guard/auth.guard';
 import { DataTransformInterceptor } from '../assets/interceptor/data-transform.interceptor';
-import { UserValidateInterceptor } from '../assets/interceptor/user-validate.interceptor';
 import { DiscussionController } from './discussion/discussion.controller';
 import { ReviewController } from './review/review.controller';
 
@@ -25,6 +24,6 @@ import { ReviewController } from './review/review.controller';
     DiscussionController,
     ReviewController,
   ],
-  providers: [AuthGuard, DataTransformInterceptor, UserValidateInterceptor],
+  providers: [AuthGuard, DataTransformInterceptor],
 })
 export class AppModule {}
